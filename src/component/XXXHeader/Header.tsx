@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { SelectBills } from '../SelectBills/SelectBills';
+// import { SelectBills } from '../SelectBills/SelectBills';
 
 export const Header = () => {
   return (
@@ -22,7 +22,7 @@ export const Header = () => {
           >
             <MenuIcon />
           </IconButton>
-          <SelectBills/>
+          {/* <SelectBills/> */}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Hello!
           </Typography>

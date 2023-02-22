@@ -27,6 +27,7 @@ export const TextFieldStyled = styled(TextField)({
     fontSize: "26px"
   },
   "& input": {
+    paddingTop: "35px",
     color: "white",
     fontSize: "26px"
   },

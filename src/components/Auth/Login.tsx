@@ -1,26 +1,37 @@
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Button, Typography, Box } from '@mui/material';
-import { MainBox, TextFieldStyled } from "./Auth.styled";
-import { registerSchema } from "../../helpers/formValidation";
 import { NavLink } from "react-router-dom";
-import { routesPath } from "../../router/routesPath";
+import { toast } from "react-toastify";
+import { Button, Typography, Box } from '@mui/material';
 
-type FormData = yup.InferType<typeof registerSchema>;
+import { loginSchema } from "utils/formValidation";
+import { routesPath } from "router/routesPath";
+import { useLoginMutation } from "redux/authApi";
+import { MainBox, TextFieldStyled } from "./Auth.styled";
 
-export const Register = () => {
+
+type FormData = yup.InferType<typeof loginSchema>;
+
+const Login = () => {
+  const [login, { isLoading: boolean }] = useLoginMutation();
   const { handleSubmit, control, formState: { errors } } = useForm<FormData>({
-    resolver: yupResolver(registerSchema),
+    resolver: yupResolver(loginSchema),
     defaultValues: {
-      name: '',
       email: '',
       password: '',
-      confirmPassword: '',
     },
   });
-  const onSubmit = (data: FormData): void => {
+  const onSubmit = async (data: FormData) => {
     console.log(data);
+    const { email, password } = data;
+
+    try {
+      await login({ email, password }).unwrap();
+      toast.info(`${email} is loged in`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -35,27 +46,13 @@ export const Register = () => {
           alignItems: 'flex-end',
         }}
       >
-        <Typography variant="h3" sx={{ mb: '10px', color: 'white', textAlign: 'center', letterSpacing: 4 }}>Register</Typography>
+        <Typography variant="h3" sx={{ mb: '10px', color: 'white', textAlign: 'center', letterSpacing: 4 }}>Login</Typography>
         <Box
           component="form"
           onSubmit={handleSubmit(onSubmit)}
           noValidate
           autoComplete="off"
         >
-          <Controller
-            name={"name"}
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <TextFieldStyled
-                onChange={onChange}
-                value={value}
-                label="Name"
-                variant="filled"
-                required
-              />
-            )}
-          />
-          <Typography sx={{mb: '10px', color: 'red'}}>{errors.name?.message}</Typography>
           <Controller
             name={"email"}
             control={control}
@@ -65,11 +62,12 @@ export const Register = () => {
                 value={value}
                 label="Email"
                 variant="filled"
+                autoFocus
                 required
               />
             )}
           />
-          <Typography sx={{mb: '10px', color: 'red'}}>{errors.email?.message}</Typography>
+          <Typography sx={{ mb: '10px', color: 'red' }}>{errors.email?.message}</Typography>
           <Controller
             name={"password"}
             control={control}
@@ -84,23 +82,9 @@ export const Register = () => {
               />
             )}
           />
-          <Typography sx={{mb: '10px', color: 'red'}}>{errors.password?.message}</Typography>
-          <Controller
-            name={"confirmPassword"}
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <TextFieldStyled
-                onChange={onChange}
-                value={value}
-                type="password"
-                label="Confirm Password"
-                variant="filled"
-                required
-              />
-            )}
-          />
-          <Typography sx={{mb: '10px', color: 'red'}}>{errors.confirmPassword?.message}</Typography>
+          <Typography sx={{ mb: '10px', color: 'red' }}>{errors.password?.message}</Typography>
           <Button type="submit" variant="text" sx={{
+            backgroundColor: '#00bcd4',
             width: '100%',
             boxShadow: 3,
             color: 'white',
@@ -112,10 +96,13 @@ export const Register = () => {
           }}>Submit</Button>
         </Box>
         <Typography sx={{ mt: '20px', color: 'white' }}>
-          Already have an account?
-          <NavLink to={routesPath.login} style={{marginLeft: '10px', color: 'brown'}}><b>Login</b></NavLink>
+          Don't have an account?
+          <NavLink to={routesPath.register} style={{ marginLeft: '10px', color: 'brown' }}><b>Register</b></NavLink>
         </Typography>
       </Box>
     </MainBox>
   )
-}
+};
+
+export default Login;
+

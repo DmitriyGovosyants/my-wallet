@@ -1,24 +1,37 @@
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Button, Typography, Box } from '@mui/material';
 import { NavLink } from "react-router-dom";
-import { loginSchema } from "../../helpers/formValidation";
-import { routesPath } from "../../router/routesPath";
+import { toast } from "react-toastify";
+import { Button, Typography, Box } from '@mui/material';
+
+import { registerSchema } from "utils/formValidation";
+import { routesPath } from "router/routesPath";
+import { useRegisterMutation } from "redux/authApi";
 import { MainBox, TextFieldStyled } from "./Auth.styled";
 
-type FormData = yup.InferType<typeof loginSchema>;
+type FormData = yup.InferType<typeof registerSchema>;
 
-export const Login = () => {
+const Register = () => {
+  const [signUp, { isLoading: boolean }] = useRegisterMutation();
   const { handleSubmit, control, formState: { errors } } = useForm<FormData>({
-    resolver: yupResolver(loginSchema),
+    resolver: yupResolver(registerSchema),
     defaultValues: {
+      name: '',
       email: '',
       password: '',
+      confirmPassword: '',
     },
   });
-  const onSubmit = (data: FormData): void => {
-    console.log(data);
+  const onSubmit = async (data: FormData) => {
+    const { name, email, password } = data;
+
+    try {
+      await signUp({email, name, password}).unwrap();
+      toast.info(`${email} is registered`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -33,13 +46,28 @@ export const Login = () => {
           alignItems: 'flex-end',
         }}
       >
-        <Typography variant="h3" sx={{ mb: '10px', color: 'white', textAlign: 'center', letterSpacing: 4 }}>Login</Typography>
+        <Typography variant="h3" sx={{ mb: '10px', color: 'white', textAlign: 'center', letterSpacing: 4 }}>Register</Typography>
         <Box
           component="form"
           onSubmit={handleSubmit(onSubmit)}
           noValidate
           autoComplete="off"
         >
+          <Controller
+            name={"name"}
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <TextFieldStyled
+                onChange={onChange}
+                value={value}
+                label="Name"
+                variant="filled"
+                required
+                autoFocus
+              />
+            )}
+          />
+          <Typography sx={{mb: '10px', color: 'red'}}>{errors.name?.message}</Typography>
           <Controller
             name={"email"}
             control={control}
@@ -69,7 +97,23 @@ export const Login = () => {
             )}
           />
           <Typography sx={{mb: '10px', color: 'red'}}>{errors.password?.message}</Typography>
+          <Controller
+            name={"confirmPassword"}
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <TextFieldStyled
+                onChange={onChange}
+                value={value}
+                type="password"
+                label="Confirm Password"
+                variant="filled"
+                required
+              />
+            )}
+          />
+          <Typography sx={{mb: '10px', color: 'red'}}>{errors.confirmPassword?.message}</Typography>
           <Button type="submit" variant="text" sx={{
+            backgroundColor: '#00bcd4',
             width: '100%',
             boxShadow: 3,
             color: 'white',
@@ -81,10 +125,12 @@ export const Login = () => {
           }}>Submit</Button>
         </Box>
         <Typography sx={{ mt: '20px', color: 'white' }}>
-          Don't have an account?
-          <NavLink to={routesPath.register} style={{marginLeft: '10px', color: 'brown'}}><b>Register</b></NavLink>
+          Already have an account?
+          <NavLink to={routesPath.login} style={{marginLeft: '10px', color: 'brown'}}><b>Login</b></NavLink>
         </Typography>
       </Box>
     </MainBox>
   )
 }
+
+export default Register;
