@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "components/Auth/Login";
 import Register from "components/Auth/Register";
@@ -8,7 +9,8 @@ import { routesPath } from "./router/routesPath";
 import { GetCurrentUser } from "./redux/refreshToken";
 import { useAuth } from "redux/useAuth";
 
-const App = () => {
+
+const App: FC = () => {
   GetCurrentUser();
   const { isAuthorized } = useAuth();
 

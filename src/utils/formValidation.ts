@@ -1,14 +1,14 @@
 import * as Yup from 'yup';
 
-const emailRegEx = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{1,})$/;
-const passwordRegEx =
+const emailRegEx: RegExp = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{1,})$/;
+const passwordRegEx: RegExp =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{7,})/;
-const nameRegEx = /^[a-zA-Zа-яА-ЯёЁіІїЇєЄ\s]*$/;
+const nameRegEx: RegExp = /^[a-zA-Zа-яА-ЯёЁіІїЇєЄ\s]*$/;
 
 const isValidDomain = (email: string): boolean => {
-  const validDomenName = ['com', 'net', 'org', 'ua', 'ru', 'gov', 'ca'];
-  const emailChunks = email.split('.');
-  const currentDomenName = emailChunks[emailChunks.length - 1];
+  const validDomenName: string[] = ['com', 'net', 'org', 'ua', 'ru', 'gov', 'ca'];
+  const emailChunks: string[] = email.split('.');
+  const currentDomenName: string = emailChunks[emailChunks.length - 1];
   if (validDomenName.indexOf(currentDomenName) !== -1) {
     return true;
   }

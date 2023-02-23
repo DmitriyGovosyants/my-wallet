@@ -2,26 +2,18 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { authApi } from './authApi';
 import { RootState } from './store';
 
-interface IAuthState {
+type AuthState = {
   token: string | null;
-  email: string | null;
-  name: string | null;
   isLoggedIn: boolean;
   isRefreshing: boolean;
 };
 
-interface IAuthResponse {
-  data: {
-    token: string;
-    email: string;
-    name: string;
-  }
+type AuthResponse = {
+  token: string;
 };
 
-const initialState: IAuthState = {
+const initialState: AuthState = {
   token: null,
-  email: null,
-  name: null,
   isLoggedIn: false,
   isRefreshing: false,
 };
@@ -34,43 +26,32 @@ export const authSlice = createSlice({
     builder
       .addMatcher(
         authApi.endpoints.register.matchFulfilled,
-        (state, { payload }: PayloadAction<IAuthResponse>): void => {
-          state.token = payload.data.token;
-          state.email = payload.data.email;
-          state.name = payload.data.name;
+        (state, { payload }: PayloadAction<AuthResponse>): void => {
+          state.token = payload.token;
           state.isLoggedIn = true;
         }
       )
       .addMatcher(
         authApi.endpoints.login.matchFulfilled,
-        (state, { payload }: PayloadAction<IAuthResponse>) => {
-          state.token = payload.data.token;
-          state.email = payload.data.email;
-          state.name = payload.data.name;
+        (state, { payload }: PayloadAction<AuthResponse>) => {
+          state.token = payload.token;
           state.isLoggedIn = true;
         }
       )
       .addMatcher(authApi.endpoints.logout.matchFulfilled, state => {
         state.token = null;
-        state.email = null;
-        state.name = null;
         state.isLoggedIn = false;
       })
       .addMatcher(authApi.endpoints.getCurrent.matchPending, state => {
         state.isRefreshing = true;
       })
-      .addMatcher(authApi.endpoints.getCurrent.matchFulfilled,
-        (state, { payload }: PayloadAction<IAuthResponse>) => {
-          state.email = payload.data.email;
-          state.name = payload.data.name;
-          state.isLoggedIn = true;
-          state.isRefreshing = false;
+      .addMatcher(authApi.endpoints.getCurrent.matchFulfilled, state => {
+        state.isLoggedIn = true;
+        state.isRefreshing = false;
       });
   },
 });
 
-export const selectCurrentUser = (state: RootState) => state.auth.token;
-export const selectCurrentEmail = (state: RootState)  => state.auth.email;
-export const selectCurrentName = (state: RootState)  => state.auth.name;
+export const selectCurrentToken = (state: RootState) => state.auth.token;
 export const getIsLoggedIn = (state: RootState)  => state.auth.isLoggedIn;
 export const isRefreshing = (state: RootState)  => state.auth.isRefreshing;

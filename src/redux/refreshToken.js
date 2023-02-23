@@ -1,12 +1,12 @@
-import { useSelector } from 'react-redux';
-import { selectCurrentUser, getIsLoggedIn } from 'redux/authSlice';
-import { useGetCurrentQuery } from 'redux/authApi';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+import { selectCurrentToken, getIsLoggedIn } from 'redux/authSlice';
+import { useGetCurrentQuery } from 'redux/authApi';
+import { useAppSelector } from './reduxHooks';
 
 export const GetCurrentUser = async () => {
-  const token = useSelector(selectCurrentUser);
-  const isAuthorized = useSelector(getIsLoggedIn);
+  const token = useAppSelector(selectCurrentToken);
+  const isAuthorized = useAppSelector(getIsLoggedIn);
   const data = useGetCurrentQuery('', {
     skip: token === null || isAuthorized === true,
   });

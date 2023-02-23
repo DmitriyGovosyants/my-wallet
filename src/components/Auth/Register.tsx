@@ -1,6 +1,7 @@
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { FC } from "react";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Button, Typography, Box } from '@mui/material';
@@ -8,11 +9,12 @@ import { Button, Typography, Box } from '@mui/material';
 import { registerSchema } from "utils/formValidation";
 import { routesPath } from "router/routesPath";
 import { useRegisterMutation } from "redux/authApi";
+import { ErrorType, requestErrorPopUp } from "utils/requesErrorPopUp";
 import { MainBox, TextFieldStyled } from "./Auth.styled";
 
 type FormData = yup.InferType<typeof registerSchema>;
 
-const Register = () => {
+const Register: FC = () => {
   const [signUp, { isLoading: boolean }] = useRegisterMutation();
   const { handleSubmit, control, formState: { errors } } = useForm<FormData>({
     resolver: yupResolver(registerSchema),
@@ -23,14 +25,14 @@ const Register = () => {
       confirmPassword: '',
     },
   });
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: FormData): Promise<void> => {
     const { name, email, password } = data;
 
     try {
       await signUp({email, name, password}).unwrap();
       toast.info(`${email} is registered`);
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      requestErrorPopUp(e as ErrorType);
     }
   };
 

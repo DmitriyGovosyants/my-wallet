@@ -1,6 +1,7 @@
+import { FC } from "react";
 import { useLogoutMutation } from "redux/authApi";
 
-const Logout = () => {
+const Logout: FC = () => {
   const [logout, { isLoading }] = useLogoutMutation();
 
   const handleLogout = async (): Promise<void> => {

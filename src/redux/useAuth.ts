@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import { getIsLoggedIn } from "./authSlice";
+import { useAppSelector } from './reduxHooks';
 
 export const useAuth = () => {
-  const isAuthorized = useSelector(getIsLoggedIn);
+  const isAuthorized = useAppSelector(getIsLoggedIn);
 
   return useMemo(() => ({ isAuthorized }), [isAuthorized]);
 };

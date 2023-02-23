@@ -1,6 +1,7 @@
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { FC } from "react";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Button, Typography, Box } from '@mui/material';
@@ -8,12 +9,12 @@ import { Button, Typography, Box } from '@mui/material';
 import { loginSchema } from "utils/formValidation";
 import { routesPath } from "router/routesPath";
 import { useLoginMutation } from "redux/authApi";
+import { ErrorType, requestErrorPopUp } from "utils/requesErrorPopUp";
 import { MainBox, TextFieldStyled } from "./Auth.styled";
-
 
 type FormData = yup.InferType<typeof loginSchema>;
 
-const Login = () => {
+const Login: FC = () => {
   const [login, { isLoading: boolean }] = useLoginMutation();
   const { handleSubmit, control, formState: { errors } } = useForm<FormData>({
     resolver: yupResolver(loginSchema),
@@ -22,15 +23,14 @@ const Login = () => {
       password: '',
     },
   });
-  const onSubmit = async (data: FormData) => {
-    console.log(data);
+  const onSubmit = async (data: FormData): Promise<void> => {
     const { email, password } = data;
 
     try {
       await login({ email, password }).unwrap();
       toast.info(`${email} is loged in`);
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      requestErrorPopUp(e as ErrorType);
     }
   };
 
