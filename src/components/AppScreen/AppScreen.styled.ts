@@ -10,12 +10,12 @@ export const MainGrid = styled.div`
 export const CenterColumnGrid = styled.div`
   display: grid;
   grid-template-rows: 0.5fr 8fr 1.5fr;
-  gap: 20px;
 `
 
 export const CenterGrid = styled.div`
   display: grid;
   grid-template-columns: 0.5fr 10fr 0.5fr;
+  padding: 12px;
 
   background-color: #acd8a7;
   border-radius: 40px;

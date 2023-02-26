@@ -1,10 +1,17 @@
+import { ButtonClose, Logout } from "components/ui";
+import { SCREEN_STATE } from "constants/screenState";
 import { FC } from "react";
-import { Background } from "./InfoScreen.styled";
+import { useAppSelector } from "redux/reduxHooks";
+import { InfoScreenBox } from "./InfoScreen.styled";
 
-const InfoScreen: FC = () => {
+export const InfoScreen: FC = () => {
+  const screenStatus = useAppSelector(({ screenStatus }) => screenStatus);
+
   return (
-    <p style={{ textAlign: 'center' }}>InfoScreen</p>
+    <InfoScreenBox>
+      {screenStatus === SCREEN_STATE.LOGOUT && <Logout />}
+      {screenStatus !== 'logout' && screenStatus}
+      {screenStatus !== SCREEN_STATE.MAIN && <ButtonClose />}
+    </InfoScreenBox>
   )
 };
-
-export default InfoScreen;

@@ -1,12 +1,31 @@
 import { FC } from "react";
-import { Background } from "./MenuBottomBar.styled";
+import { Grid, InfoBoard, InfoData, AddButton } from "./MenuBottomBar.styled";
 
-const MenuBottomBar: FC = () => {
+export const MenuBottomBar: FC = () => {
+  const handleAddRevenue = () => {
+    console.log('addRevenue');
+  }
+
+  const handleAddExpense = () => {
+    console.log('addExpense');
+  }
+
   return (
-    <Background>
-      <p style={{textAlign: 'center'}}>MenuBottomBar</p>
-    </Background>
+    <Grid>
+      <InfoBoard>
+        <span>Revenue</span>
+        <InfoData>10 000</InfoData>
+      </InfoBoard>
+      <InfoBoard>
+        <AddButton onClick={handleAddRevenue}>+</AddButton>
+      </InfoBoard>
+      <InfoBoard>
+        <AddButton onClick={handleAddExpense}>-</AddButton>
+      </InfoBoard>
+      <InfoBoard>
+        <span>Expense</span>
+        <InfoData>8 000</InfoData>
+      </InfoBoard>
+    </Grid>
   )
 };
-
-export default MenuBottomBar;

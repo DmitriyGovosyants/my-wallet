@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { authApi } from './authApi';
-import { RootState } from './store';
+import { RootState } from '../store';
 
 type AuthState = {
   token: string | null;
@@ -26,7 +26,7 @@ export const authSlice = createSlice({
     builder
       .addMatcher(
         authApi.endpoints.register.matchFulfilled,
-        (state, { payload }: PayloadAction<AuthResponse>): void => {
+        (state, { payload }: PayloadAction<AuthResponse>) => {
           state.token = payload.token;
           state.isLoggedIn = true;
         }

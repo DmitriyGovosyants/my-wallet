@@ -8,13 +8,13 @@ import { Button, Typography, Box } from '@mui/material';
 
 import { registerSchema } from "utils/formValidation";
 import { routesPath } from "router/routesPath";
-import { useRegisterMutation } from "redux/authApi";
-import { ErrorType, requestErrorPopUp } from "utils/requesErrorPopUp";
+import { useRegisterMutation } from "redux/auth/authApi";
+import { ErrorProps, requestErrorPopUp } from "utils/requesErrorPopUp";
 import { MainBox, TextFieldStyled } from "./Auth.styled";
 
 type FormData = yup.InferType<typeof registerSchema>;
 
-const Register: FC = () => {
+export const Register: FC = () => {
   const [signUp, { isLoading: boolean }] = useRegisterMutation();
   const { handleSubmit, control, formState: { errors } } = useForm<FormData>({
     resolver: yupResolver(registerSchema),
@@ -29,10 +29,10 @@ const Register: FC = () => {
     const { name, email, password } = data;
 
     try {
-      await signUp({email, name, password}).unwrap();
+      await signUp({ email, name, password }).unwrap();
       toast.info(`${email} is registered`);
     } catch (e) {
-      requestErrorPopUp(e as ErrorType);
+      requestErrorPopUp(e as ErrorProps);
     }
   };
 
@@ -69,7 +69,7 @@ const Register: FC = () => {
               />
             )}
           />
-          <Typography sx={{mb: '10px', color: 'red'}}>{errors.name?.message}</Typography>
+          <Typography sx={{ mb: '10px', color: 'red' }}>{errors.name?.message}</Typography>
           <Controller
             name={"email"}
             control={control}
@@ -83,7 +83,7 @@ const Register: FC = () => {
               />
             )}
           />
-          <Typography sx={{mb: '10px', color: 'red'}}>{errors.email?.message}</Typography>
+          <Typography sx={{ mb: '10px', color: 'red' }}>{errors.email?.message}</Typography>
           <Controller
             name={"password"}
             control={control}
@@ -98,7 +98,7 @@ const Register: FC = () => {
               />
             )}
           />
-          <Typography sx={{mb: '10px', color: 'red'}}>{errors.password?.message}</Typography>
+          <Typography sx={{ mb: '10px', color: 'red' }}>{errors.password?.message}</Typography>
           <Controller
             name={"confirmPassword"}
             control={control}
@@ -113,7 +113,7 @@ const Register: FC = () => {
               />
             )}
           />
-          <Typography sx={{mb: '10px', color: 'red'}}>{errors.confirmPassword?.message}</Typography>
+          <Typography sx={{ mb: '10px', color: 'red' }}>{errors.confirmPassword?.message}</Typography>
           <Button type="submit" variant="text" sx={{
             backgroundColor: '#00bcd4',
             width: '100%',
@@ -128,11 +128,9 @@ const Register: FC = () => {
         </Box>
         <Typography sx={{ mt: '20px', color: 'white' }}>
           Already have an account?
-          <NavLink to={routesPath.login} style={{marginLeft: '10px', color: 'brown'}}><b>Login</b></NavLink>
+          <NavLink to={routesPath.login} style={{ marginLeft: '10px', color: 'brown' }}><b>Login</b></NavLink>
         </Typography>
       </Box>
     </MainBox>
   )
-}
-
-export default Register;
+};

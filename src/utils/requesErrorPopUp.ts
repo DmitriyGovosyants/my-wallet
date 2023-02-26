@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 
-export type ErrorType = {
+export type ErrorProps= {
   status: number;
   data: {
     code: number;
@@ -8,7 +8,7 @@ export type ErrorType = {
   };
 }
 
-export const requestErrorPopUp = (e: ErrorType): void => {
+export const requestErrorPopUp = (e: ErrorProps): void => {
   console.log(e)
   if (e?.status === 498) {
     window.location.reload();

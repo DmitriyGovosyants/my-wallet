@@ -1,11 +1,11 @@
 import { FC } from "react";
-import { ArrowBox } from "./NavArrow.styled";
+import { ArrowBox, ArrowButton, LeftArrow, RightArrow } from "./NavArrow.styled";
 
 type NavArrowProps = {
   direction: string;
 }
 
-const NavArrow: FC<NavArrowProps> = ({ direction }) => {
+export const NavArrow: FC<NavArrowProps> = ({ direction }) => {
   const handleDateChange = (): void => {
     if (direction === 'left') {
       handleDateBackward();
@@ -25,12 +25,10 @@ const NavArrow: FC<NavArrowProps> = ({ direction }) => {
 
   return (
     <ArrowBox>
-      <button onClick={handleDateChange}>
-        {direction === 'left' && 'L'}
-        {direction === 'right' && 'R'}
-      </button>
+      <ArrowButton onClick={handleDateChange}>
+        {direction === 'left' && <LeftArrow />}
+        {direction === 'right' && <RightArrow />}
+      </ArrowButton>
     </ArrowBox>
   )
 };
-
-export default NavArrow;

@@ -1,14 +1,11 @@
 import { FC } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Login from "components/Auth/Login";
-import Register from "components/Auth/Register";
-import MainScreen from "components/MainScreen/MainScreen";
 import { PublicRouteProps, PublicRoute } from "./router/PublicRoute";
 import { ProtectedRouteProps, ProtectedRoute } from "./router/ProtectedRoute";
 import { routesPath } from "./router/routesPath";
-import { GetCurrentUser } from "./redux/refreshToken";
-import { useAuth } from "redux/useAuth";
-
+import { GetCurrentUser } from "./redux/auth/refreshToken";
+import { useAuth } from "redux/auth/useAuth";
+import { Login, Register, AppScreen } from "components";
 
 const App: FC = () => {
   GetCurrentUser();
@@ -26,7 +23,7 @@ const App: FC = () => {
 
   return (
     <Routes>
-      <Route path={routesPath.app} element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<MainScreen />} />} />
+      <Route path={routesPath.app} element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<AppScreen />} />} />
 
       <Route path={routesPath.login} element={<PublicRoute {...defaultPublicRouteProps} outlet={<Login />} />} />
       <Route path={routesPath.register} element={<PublicRoute {...defaultPublicRouteProps} outlet={<Register />} />} />

@@ -1,4 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
 import {
   persistStore,
   persistReducer,
@@ -10,8 +11,9 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { authApi } from './authApi';
-import { authSlice } from './authSlice';
+import { authApi } from './auth/authApi';
+import { authSlice } from './auth/authSlice';
+import { screenStatusSlice } from './screenStatus/screenStatusSlice';
 
 const persistConfig = {
   key: 'auth',
@@ -23,6 +25,7 @@ const persistConfig = {
 const reducers = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   auth: persistReducer(persistConfig, authSlice.reducer),
+  screenStatus: screenStatusSlice.reducer,
 })
 
 export const store = configureStore({
@@ -41,4 +44,5 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
+setupListeners(store.dispatch);
 export const persistor = persistStore(store);

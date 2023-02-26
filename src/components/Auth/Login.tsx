@@ -8,13 +8,13 @@ import { Button, Typography, Box } from '@mui/material';
 
 import { loginSchema } from "utils/formValidation";
 import { routesPath } from "router/routesPath";
-import { useLoginMutation } from "redux/authApi";
-import { ErrorType, requestErrorPopUp } from "utils/requesErrorPopUp";
+import { useLoginMutation } from "redux/auth/authApi";
+import { ErrorProps, requestErrorPopUp } from "utils/requesErrorPopUp";
 import { MainBox, TextFieldStyled } from "./Auth.styled";
 
 type FormData = yup.InferType<typeof loginSchema>;
 
-const Login: FC = () => {
+export const Login: FC = () => {
   const [login, { isLoading: boolean }] = useLoginMutation();
   const { handleSubmit, control, formState: { errors } } = useForm<FormData>({
     resolver: yupResolver(loginSchema),
@@ -30,7 +30,7 @@ const Login: FC = () => {
       await login({ email, password }).unwrap();
       toast.info(`${email} is loged in`);
     } catch (e) {
-      requestErrorPopUp(e as ErrorType);
+      requestErrorPopUp(e as ErrorProps);
     }
   };
 
@@ -103,6 +103,4 @@ const Login: FC = () => {
     </MainBox>
   )
 };
-
-export default Login;
 
