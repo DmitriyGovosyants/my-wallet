@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useAppSelector } from "redux/reduxHooks";
 import { ArrowBox, ArrowButton, LeftArrow, RightArrow } from "./NavArrow.styled";
 
 type NavArrowProps = {
@@ -6,6 +7,8 @@ type NavArrowProps = {
 }
 
 export const NavArrow: FC<NavArrowProps> = ({ direction }) => {
+  const screenStatus = useAppSelector(({ screenStatus }) => screenStatus);
+
   const handleDateChange = (): void => {
     if (direction === 'left') {
       handleDateBackward();
@@ -24,7 +27,7 @@ export const NavArrow: FC<NavArrowProps> = ({ direction }) => {
   }
 
   return (
-    <ArrowBox>
+    <ArrowBox screenStatus={screenStatus}>
       <ArrowButton onClick={handleDateChange}>
         {direction === 'left' && <LeftArrow />}
         {direction === 'right' && <RightArrow />}

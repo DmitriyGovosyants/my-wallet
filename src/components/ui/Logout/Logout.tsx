@@ -1,10 +1,10 @@
 import { FC } from "react";
+import { Button } from "@mui/material";
 import { SCREEN_STATE } from "constants/screenState";
 import { useLogoutMutation } from "redux/auth/authApi";
 import { useAppDispatch } from "redux/reduxHooks";
 import { screen } from "redux/screenStatus/screenStatusSlice";
 import { LogoutBox, Title, ButtonBox } from "./Logout.styled";
-import { Button } from "@mui/material";
 
 export const Logout: FC = () => {
   const [logout, { isLoading }] = useLogoutMutation();
@@ -13,6 +13,7 @@ export const Logout: FC = () => {
   const handleLogout = async (): Promise<void> => {
     try {
       await logout({}).unwrap();
+      handleChangeScreen(SCREEN_STATE.MAIN);
     } catch (error) {
       console.log(error);
     }
@@ -28,10 +29,14 @@ export const Logout: FC = () => {
       <ButtonBox>
         <Button variant="outlined"
           onClick={handleLogout}
-        >Yes</Button>
+        >
+          Yes
+        </Button>
         <Button variant="outlined"
           onClick={() => handleChangeScreen(SCREEN_STATE.MAIN)}
-        >No</Button>
+        >
+          No
+        </Button>
       </ButtonBox>
     </LogoutBox>
   )

@@ -1,9 +1,9 @@
 import TextField from '@mui/material/TextField';
 import styled from '@emotion/styled';
-import authBackground from '../../data/image/auth-background.jpg';
+import authBackground from 'data/image/auth-background.jpg';
 
 export const MainBox = styled.div`
-  height: 100vh;
+  height: 100dvh;
 
   background-repeat: no-repeat;
   background-size: cover;

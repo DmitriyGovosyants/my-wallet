@@ -1,8 +1,8 @@
-import { SCREEN_STATE } from "constants/screenState";
 import { FC } from "react";
+import { SCREEN_STATE } from "constants/screenState";
 import { useAppDispatch } from "redux/reduxHooks";
 import { screen } from "redux/screenStatus/screenStatusSlice";
-import { BtnCloseStyled } from "./ButtonClose.styled";
+import { Button, CloseIcon } from "./ButtonClose.styled";
 
 export const ButtonClose: FC = () => {
   const dispatch = useAppDispatch();
@@ -12,8 +12,10 @@ export const ButtonClose: FC = () => {
   };
 
   return (
-    <BtnCloseStyled
+    <Button
       onClick={() => handleChangeScreen(SCREEN_STATE.MAIN)}
-    >X</BtnCloseStyled>
+    >
+      <CloseIcon />
+    </Button>
   )
 };

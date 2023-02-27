@@ -4,13 +4,14 @@ import * as yup from "yup";
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Button, Typography, Box } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 
 import { registerSchema } from "utils/formValidation";
 import { routesPath } from "router/routesPath";
 import { useRegisterMutation } from "redux/auth/authApi";
 import { ErrorProps, requestErrorPopUp } from "utils/requesErrorPopUp";
 import { MainBox, TextFieldStyled } from "./Auth.styled";
+import { ButtonSubmit } from "components/ui";
 
 type FormData = yup.InferType<typeof registerSchema>;
 
@@ -25,11 +26,16 @@ export const Register: FC = () => {
       confirmPassword: '',
     },
   });
+  
   const onSubmit = async (data: FormData): Promise<void> => {
     const { name, email, password } = data;
 
     try {
-      await signUp({ email, name, password }).unwrap();
+      await signUp({
+        email,
+        name,
+        password
+      }).unwrap();
       toast.info(`${email} is registered`);
     } catch (e) {
       requestErrorPopUp(e as ErrorProps);
@@ -48,7 +54,9 @@ export const Register: FC = () => {
           alignItems: 'flex-end',
         }}
       >
-        <Typography variant="h3" sx={{ mb: '10px', color: 'white', textAlign: 'center', letterSpacing: 4 }}>Register</Typography>
+        <Typography variant="h3" sx={{ mb: '10px', color: 'white', textAlign: 'center', letterSpacing: 4 }}>
+          Register
+        </Typography>
         <Box
           component="form"
           onSubmit={handleSubmit(onSubmit)}
@@ -114,17 +122,7 @@ export const Register: FC = () => {
             )}
           />
           <Typography sx={{ mb: '10px', color: 'red' }}>{errors.confirmPassword?.message}</Typography>
-          <Button type="submit" variant="text" sx={{
-            backgroundColor: '#00bcd4',
-            width: '100%',
-            boxShadow: 3,
-            color: 'white',
-            fontSize: '20px',
-            letterSpacing: 10,
-            paddingTop: '10px',
-            paddingBottom: '10px',
-            marginTop: '10px'
-          }}>Submit</Button>
+          <ButtonSubmit />
         </Box>
         <Typography sx={{ mt: '20px', color: 'white' }}>
           Already have an account?

@@ -1,11 +1,12 @@
 import styled from "@emotion/styled";
+import { MdAdd, MdRemove } from 'react-icons/md';
 
 export const Grid = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 2fr;
   gap: 20px;
 
-  background-color: #72bf6a;
+  background-color: ${p => p.theme.colors.bgMain};
 `
 
 export const InfoBoard = styled.div`
@@ -22,6 +23,9 @@ export const InfoData = styled.span`
 `
 
 export const AddButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 80px;
   height: 80px;
 
@@ -29,4 +33,12 @@ export const AddButton = styled.button`
 
   background-color: white;
   border-radius: 50%;
+`
+
+export const RevenueIcon = styled(MdAdd)`
+
+`
+
+export const ExpenseIcon = styled(MdRemove)`
+
 `

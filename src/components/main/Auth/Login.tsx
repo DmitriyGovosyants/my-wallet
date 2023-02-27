@@ -4,13 +4,14 @@ import * as yup from "yup";
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Button, Typography, Box } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 
 import { loginSchema } from "utils/formValidation";
 import { routesPath } from "router/routesPath";
 import { useLoginMutation } from "redux/auth/authApi";
 import { ErrorProps, requestErrorPopUp } from "utils/requesErrorPopUp";
 import { MainBox, TextFieldStyled } from "./Auth.styled";
+import { ButtonSubmit } from "components/ui";
 
 type FormData = yup.InferType<typeof loginSchema>;
 
@@ -23,6 +24,7 @@ export const Login: FC = () => {
       password: '',
     },
   });
+
   const onSubmit = async (data: FormData): Promise<void> => {
     const { email, password } = data;
 
@@ -46,7 +48,9 @@ export const Login: FC = () => {
           alignItems: 'flex-end',
         }}
       >
-        <Typography variant="h3" sx={{ mb: '10px', color: 'white', textAlign: 'center', letterSpacing: 4 }}>Login</Typography>
+        <Typography variant="h3" sx={{ mb: '10px', color: 'white', textAlign: 'center', letterSpacing: 4 }}>
+          Login
+        </Typography>
         <Box
           component="form"
           onSubmit={handleSubmit(onSubmit)}
@@ -83,17 +87,7 @@ export const Login: FC = () => {
             )}
           />
           <Typography sx={{ mb: '10px', color: 'red' }}>{errors.password?.message}</Typography>
-          <Button type="submit" variant="text" sx={{
-            backgroundColor: '#00bcd4',
-            width: '100%',
-            boxShadow: 3,
-            color: 'white',
-            fontSize: '20px',
-            letterSpacing: 10,
-            paddingTop: '10px',
-            paddingBottom: '10px',
-            marginTop: '10px'
-          }}>Submit</Button>
+          <ButtonSubmit />
         </Box>
         <Typography sx={{ mt: '20px', color: 'white' }}>
           Don't have an account?

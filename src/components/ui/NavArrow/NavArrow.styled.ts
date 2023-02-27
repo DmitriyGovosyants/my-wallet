@@ -1,10 +1,19 @@
 import styled from "@emotion/styled";
 import { MdOutlineArrowBackIos, MdOutlineArrowForwardIos } from 'react-icons/md';
+import { SCREEN_STATE } from "constants/screenState";
 
-export const ArrowBox = styled.div`
-  display: flex;
+interface ArrowBoxProps {
+  screenStatus: string
+}
+
+export const ArrowBox = styled.div<ArrowBoxProps>`
+  display: ${p => p.screenStatus === SCREEN_STATE.MAIN
+    ? 'flex'
+    : 'none'
+  };
   justify-content: center;
   align-items: center;
+  width: 40px;
 `
 
 export const ArrowButton = styled.button`

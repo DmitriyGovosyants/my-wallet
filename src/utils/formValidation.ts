@@ -49,6 +49,8 @@ const confirmPassword = Yup.string().test(
   }
 );
 
+const currency = Yup.string().required();
+
 export const loginSchema = Yup.object({
   email,
   password,
@@ -59,4 +61,8 @@ export const registerSchema = Yup.object({
   email,
   password,
   confirmPassword,
+});
+
+export const currencySchema = Yup.object({
+  currency,
 });

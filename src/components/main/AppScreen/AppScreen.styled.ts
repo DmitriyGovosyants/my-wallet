@@ -3,8 +3,8 @@ import styled from "@emotion/styled";
 export const MainGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 7fr 1fr;
-  height: 100vh;
-  background-color: #72bf6a;
+  height: 100dvh;
+  background-color: ${p => p.theme.colors.bgMain};
 `
 
 export const CenterColumnGrid = styled.div`
@@ -13,14 +13,13 @@ export const CenterColumnGrid = styled.div`
 `
 
 export const CenterGrid = styled.div`
-  display: grid;
-  grid-template-columns: 0.5fr 10fr 0.5fr;
+  display: flex;
   padding: 12px;
 
-  background-color: #acd8a7;
+  background-color: ${p => p.theme.colors.bgSecond};
   border-radius: 40px;
   box-shadow:
-   inset 5px -5px 20px #5bb450,
-   inset -5px 5px 20px #5bb450
+   inset 5px -5px 20px ${p => p.theme.colors.bgShadow},
+   inset -5px 5px 20px ${p => p.theme.colors.bgShadow}
   ;
 `

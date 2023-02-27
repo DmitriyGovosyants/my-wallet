@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Grid, InfoBoard, InfoData, AddButton } from "./MenuBottomBar.styled";
+import { Grid, InfoBoard, InfoData, AddButton, RevenueIcon, ExpenseIcon } from "./MenuBottomBar.styled";
 
 export const MenuBottomBar: FC = () => {
   const handleAddRevenue = () => {
@@ -17,10 +17,14 @@ export const MenuBottomBar: FC = () => {
         <InfoData>10 000</InfoData>
       </InfoBoard>
       <InfoBoard>
-        <AddButton onClick={handleAddRevenue}>+</AddButton>
+        <AddButton onClick={handleAddRevenue}>
+          <RevenueIcon />
+        </AddButton>
       </InfoBoard>
       <InfoBoard>
-        <AddButton onClick={handleAddExpense}>-</AddButton>
+        <AddButton onClick={handleAddExpense}>
+          <ExpenseIcon />
+        </AddButton>
       </InfoBoard>
       <InfoBoard>
         <span>Expense</span>
