@@ -3,8 +3,8 @@ import { MdAdd, MdRemove } from 'react-icons/md';
 
 export const Grid = styled.div`
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 2fr;
-  gap: 20px;
+  grid-template-columns: 2fr auto auto 2fr;
+  gap: 40px;
 
   background-color: ${p => p.theme.colors.bgMain};
 `

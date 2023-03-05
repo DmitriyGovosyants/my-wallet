@@ -4,6 +4,7 @@ const emailRegEx: RegExp = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{1,
 const passwordRegEx: RegExp =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{7,})/;
 const nameRegEx: RegExp = /^[a-zA-Zа-яА-ЯёЁіІїЇєЄ\s]*$/;
+const patternTwoDigisAfterComma: RegExp = /^\d+(\.\d{0,2})?$/;
 
 const isValidDomain = (email: string): boolean => {
   const validDomenName: string[] = ['com', 'net', 'org', 'ua', 'ru', 'gov', 'ca'];
@@ -51,6 +52,34 @@ const confirmPassword = Yup.string().test(
 
 const currency = Yup.string().required();
 
+const title = Yup.string()
+  .trim()
+  .required('Title is required')
+  .min(2)
+  .max(16);
+
+const startBalance = Yup.number()
+  .required('Start balance is required')
+  .min(-1000000000000)
+  .max(1000000000000)
+  .test(
+    "is-decimal",
+    "The amount should be a decimal with maximum two digits after comma",
+    (val: any) => {
+      if (val !== undefined) {
+        return patternTwoDigisAfterComma.test(val);
+      }
+      return true;
+    }
+  )
+  .typeError('You must specify a number');
+
+const startDate = Yup.string()
+  .required('Start date is required');
+
+const icon = Yup.string()
+  .required('Icon is required');
+
 export const loginSchema = Yup.object({
   email,
   password,
@@ -65,4 +94,12 @@ export const registerSchema = Yup.object({
 
 export const currencySchema = Yup.object({
   currency,
+});
+
+export const accountSchema = Yup.object({
+  title,
+  currency,
+  startBalance,
+  startDate,
+  icon,
 });

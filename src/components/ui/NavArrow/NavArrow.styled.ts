@@ -1,13 +1,13 @@
 import styled from "@emotion/styled";
 import { MdOutlineArrowBackIos, MdOutlineArrowForwardIos } from 'react-icons/md';
-import { SCREEN_STATE } from "constants/screenState";
+import { INFO_SCREEN } from "constants/infoState";
 
 interface ArrowBoxProps {
   screenStatus: string
 }
 
 export const ArrowBox = styled.div<ArrowBoxProps>`
-  display: ${p => p.screenStatus === SCREEN_STATE.MAIN
+  display: ${p => p.screenStatus === INFO_SCREEN.TRANSACTIONS
     ? 'flex'
     : 'none'
   };

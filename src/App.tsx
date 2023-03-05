@@ -5,7 +5,7 @@ import { ProtectedRouteProps, ProtectedRoute } from "./router/ProtectedRoute";
 import { routesPath } from "./router/routesPath";
 import { GetCurrentUser } from "./redux/auth/refreshToken";
 import { useAuth } from "redux/auth/useAuth";
-import { Login, Register, AppScreen } from "components";
+import { Login, Register, WalletScreen } from "components";
 
 const App: FC = () => {
   GetCurrentUser();
@@ -23,7 +23,7 @@ const App: FC = () => {
 
   return (
     <Routes>
-      <Route path={routesPath.app} element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<AppScreen />} />} />
+      <Route path={routesPath.app} element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<WalletScreen />} />} />
 
       <Route path={routesPath.login} element={<PublicRoute {...defaultPublicRouteProps} outlet={<Login />} />} />
       <Route path={routesPath.register} element={<PublicRoute {...defaultPublicRouteProps} outlet={<Register />} />} />

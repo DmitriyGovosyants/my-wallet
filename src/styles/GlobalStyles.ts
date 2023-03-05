@@ -54,4 +54,13 @@ export const GlobalStyles = css`
     max-width: 100%;
     height: auto;
   }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
 `;

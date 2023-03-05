@@ -1,6 +1,6 @@
-import { SCREEN_STATE } from "constants/screenState";
 import { FC } from "react";
 import { useAppSelector } from "redux/reduxHooks";
+import { INFO_SCREEN } from "constants/infoState";
 import { Background, StatusText } from "./MenuTopBar.styled";
 
 export const MenuTopBar: FC = () => {
@@ -8,12 +8,12 @@ export const MenuTopBar: FC = () => {
 
   return (
     <Background>
-      {screenStatus !== SCREEN_STATE.MAIN &&
+      {screenStatus !== INFO_SCREEN.TRANSACTIONS &&
         <StatusText>
           {screenStatus}
         </StatusText>
       }
-      {screenStatus === SCREEN_STATE.MAIN &&
+      {screenStatus === INFO_SCREEN.TRANSACTIONS &&
         <>
           <p style={{textAlign: 'center'}}>February 2023</p>
         </>

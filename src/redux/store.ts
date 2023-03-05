@@ -13,8 +13,10 @@ import {
 import storage from 'redux-persist/lib/storage';
 import { authApi } from './auth/authApi';
 import { authSlice } from './auth/authSlice';
+import { accountsApi } from './accounts/accountsApi';
 import { screenStatusSlice } from './screenStatus/screenStatusSlice';
-import { userApi } from './user/userApi';
+import { settingsApi } from './settingsApi/settingsApi';
+import { categoriesApi } from './categoriesApi/categoriesApi';
 
 const persistConfig = {
   key: 'auth',
@@ -25,7 +27,9 @@ const persistConfig = {
 
 const reducers = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
-  [userApi.reducerPath]: userApi.reducer,
+  [settingsApi.reducerPath]: settingsApi.reducer,
+  [accountsApi.reducerPath]: accountsApi.reducer,
+  [categoriesApi.reducerPath]: categoriesApi.reducer,
   auth: persistReducer(persistConfig, authSlice.reducer),
   screenStatus: screenStatusSlice.reducer,
 })
@@ -40,7 +44,9 @@ export const store = configureStore({
       },
     }),
     authApi.middleware,
-    userApi.middleware,
+    settingsApi.middleware,
+    accountsApi.middleware,
+    categoriesApi.middleware,
   ],
 });
 
