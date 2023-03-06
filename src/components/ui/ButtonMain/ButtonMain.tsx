@@ -1,9 +1,9 @@
-import { FC, MouseEventHandler } from "react";
+import { FC, MouseEventHandler, ReactNode } from "react";
 import Button from "@mui/material/Button";
 
 type ButtonMainProps = {
   marginTop?: string;
-  children: string;
+  children: ReactNode;
   type?: "submit" | "button" | "reset" | undefined;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   isDisabled?: boolean;
@@ -22,6 +22,7 @@ export const ButtonMain: FC<ButtonMainProps> = ({
         backgroundColor: '#15acc0',
         width: '100%',
         maxWidth: '240px',
+        minWidth: '140px',
         boxShadow: 3,
         color: 'white',
         fontSize: '20px',

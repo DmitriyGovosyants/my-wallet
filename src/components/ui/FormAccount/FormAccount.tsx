@@ -8,17 +8,19 @@ import { accountsIcons } from "data/accountsIcons";
 import { IAccount, useAddAccountMutation, useUpdateAccountMutation } from "redux/accounts/accountsApi";
 import { useGetSettingsQuery } from "redux/settingsApi/settingsApi";
 import { accountSchema, IErrorAPI, requestErrorPopUp, currentDate } from "utils";
-import { ButtonMain, Input, InputAccountsIcons, InputSelect, SpinnerFixed, WrapperButtons } from "components/ui";
+import { ButtonMain, Input, InputRadioIcons, InputSelect, SpinnerFixed, WrapperButtons } from "components/ui";
 import { Form, InputGrid } from "./FormAccount.styled";
+import { toast } from "react-toastify";
 
 type FormAccountProps = {
   accountData?: IAccount;
   setAccountScreen?: () => void;
+  firstAccountCreate?: boolean;
 };
 
 type FormData = yup.InferType<typeof accountSchema>;
 
-export const FormAccount: FC<FormAccountProps> = ({ accountData, setAccountScreen }) => {
+export const FormAccount: FC<FormAccountProps> = ({ accountData, setAccountScreen, firstAccountCreate }) => {
   const { data: userSettings } = useGetSettingsQuery();
   const [addAccount, { isLoading: isAddingAccount }] = useAddAccountMutation();
   const [updateAccount, { isLoading: isUpdatingAccount }] = useUpdateAccountMutation();
@@ -48,10 +50,11 @@ export const FormAccount: FC<FormAccountProps> = ({ accountData, setAccountScree
     try {
       if (!accountData) {
         await addAccount({ ...data, transactions: [] }).unwrap();
+        toast.info(`"${data.title}" account created`);
       }
       if (accountData) {
-        await updateAccount({accountID: accountData._id, body: {transactions: accountData.transactions, ...data}})
-        console.log(accountData._id, {...accountData, ...data})
+        await updateAccount({ accountID: accountData._id, body: { transactions: accountData.transactions, ...data } }).unwrap();
+        toast.info(`"${data.title}" account updated`);
       }
       if (setAccountScreen) {
         setAccountScreen();
@@ -100,7 +103,8 @@ export const FormAccount: FC<FormAccountProps> = ({ accountData, setAccountScree
             error={errors?.currency?.message}
           />
         </InputGrid>
-        <InputAccountsIcons
+        <InputRadioIcons
+          iconsGroup={accountsIcons}
           name={"icon"}
           label={"Choose icon"}
           control={control}

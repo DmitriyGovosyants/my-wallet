@@ -1,8 +1,8 @@
-
-import { ButtonMain, TitleMain, SpinnerFixed, WrapperInfo, WrapperButtons } from "components/ui";
 import { FC } from "react";
+import { toast } from "react-toastify";
 import { IAccount, useDeleteAccountMutation } from "redux/accounts/accountsApi";
 import { IErrorAPI, requestErrorPopUp } from "utils";
+import { ButtonMain, TitleMain, SpinnerFixed, WrapperInfo, WrapperButtons } from "components/ui";
 
 type AccountDeleteProps = {
   accountData: IAccount;
@@ -15,6 +15,7 @@ export const AccountDelete: FC<AccountDeleteProps> = ({ accountData, setAccountS
   const handleAccountDelete = async (): Promise<void> => {
     try {
       await deleteAccount(accountData._id).unwrap();
+      toast.info(`"${accountData.title}" account deleted`);
       setAccountScreen();
     } catch (e) {
       requestErrorPopUp(e as IErrorAPI);

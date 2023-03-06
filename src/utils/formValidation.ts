@@ -103,3 +103,8 @@ export const accountSchema = Yup.object({
   startDate,
   icon,
 });
+
+export const categorySchema = Yup.object({
+  title,
+  icon,
+});

@@ -24,5 +24,7 @@ export * from "./main/AccountUpdate/AccountUpdate";
 
 export * from "./main/CategoriesScreen/CategoriesScreen";
 export * from "./main/CategoriesTable/CategoriesTable";
-
+export * from "./main/CategoryCreate/CategoryCreate";
+export * from "./main/CategoryEdit/CategoryEdit";
+export * from "./main/CategoryDelete/CategoryDelete";
 

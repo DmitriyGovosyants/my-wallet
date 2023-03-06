@@ -4,7 +4,7 @@ import { TitleMain, WrapperInfo } from "components/ui";
 
 export const TransactionCreate: FC = () => {
   const { data: userAccounts } = useGetAccountsQuery();
-  console.log(userAccounts)
+  
   return (
     <WrapperInfo>
       <TitleMain fz="30px">Add transaction</TitleMain>

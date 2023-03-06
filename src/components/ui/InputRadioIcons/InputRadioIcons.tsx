@@ -1,17 +1,18 @@
 import { FC } from "react";
 import { Controller, Control } from "react-hook-form";
 import { FormControlLabel, Radio, FormControl, Typography } from "@mui/material";
-import { accountsIcons } from "data/accountsIcons";
-import { RadioGroupStyled, Icon } from "./InputAccountsIcons.styled";
+import { RadioGroupStyled, Icon } from "./InputRadioIcons.styled";
+import { IICon } from "utils";
 
-interface InputAccountsIconsProps {
+type InputRadioIconsProps = {
+  iconsGroup: IICon[];
   name: string;
   label: string;
   control: Control<any>;
   error: string | undefined;
 }
 
-export const InputAccountsIcons: FC<InputAccountsIconsProps> = ({ name, label, control, error }) => {
+export const InputRadioIcons: FC<InputRadioIconsProps> = ({iconsGroup, name, label, control, error }) => {
 
   return (
     <div>
@@ -26,7 +27,7 @@ export const InputAccountsIcons: FC<InputAccountsIconsProps> = ({ name, label, c
               value={value}
               onChange={onChange}
             >
-              {accountsIcons.map(({src, label}) => 
+              {iconsGroup.map(({src, label}) => 
                 <FormControlLabel
                   key={label}
                   value={label}

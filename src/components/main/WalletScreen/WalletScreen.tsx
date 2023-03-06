@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { useGetSettingsQuery } from "redux/settingsApi/settingsApi";
 import { useGetAccountsQuery } from "redux/accounts/accountsApi";
+import { useGetCategoriesQuery } from "redux/categoriesApi/categoriesApi";
 import { APP_SCREEN } from "constants/appScreen";
 import { FirstAccountCreate, MainCurrencySelect, InfoScreen, MenuBottomBar, MenuLeftBar, MenuRightBar, MenuTopBar } from "components";
 import { NavArrow, SpinnerFixed } from "components/ui";
@@ -9,6 +10,7 @@ import { MainGrid, CenterColumnGrid, CenterGrid } from "./WalletScreen.styled";
 export const WalletScreen: FC = () => {
   const { data: userSettings, isLoading: settingsIsLoading } = useGetSettingsQuery();
   const { data: userAccounts } = useGetAccountsQuery();
+  const { data: userCategories } = useGetCategoriesQuery();
   const [appScreen, setAppScreen] = useState<string>(APP_SCREEN.EMPTY);
 
   useEffect(() => {

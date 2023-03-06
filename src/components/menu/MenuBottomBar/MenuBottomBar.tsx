@@ -18,7 +18,7 @@ export const MenuBottomBar: FC = () => {
   return (
     <Grid>
       <InfoBoard>
-        <span>Revenue</span>
+        <span>Revenues</span>
         <InfoData>10 000</InfoData>
       </InfoBoard>
       <InfoBoard>
@@ -32,7 +32,7 @@ export const MenuBottomBar: FC = () => {
         </AddButton>
       </InfoBoard>
       <InfoBoard>
-        <span>Expense</span>
+        <span>Expenses</span>
         <InfoData>8 000</InfoData>
       </InfoBoard>
     </Grid>
