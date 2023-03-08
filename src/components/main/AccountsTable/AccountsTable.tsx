@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { ACCOUNTS_SCREEN } from "constants/accountsScreen";
 import { ButtonMain } from "components/ui";
-import { getAccountIconSrc, getCurrencyLabel } from "utils";
+import { getIconSrc, getCurrencyLabel } from "utils";
 import { IAccount, useGetAccountsQuery } from "redux/accounts/accountsApi";
 import { Table, RowGrid, TitleData, RowData, Text, ButtonBox, AccountInterfaceBtn, DeleteIcon, EditIcon } from "./AccountsTable.styled";
 import { accountsIcons } from "data/accountsIcons";
@@ -58,7 +58,7 @@ export const AccountsTable: FC<AccountsTableProps> = ({ setAccountScreen, setAcc
             return (
               <RowGrid key={_id}>
                 <RowData>
-                  <img src={getAccountIconSrc(icon, accountsIcons)} alt={icon} />
+                  <img src={getIconSrc(icon, accountsIcons)} alt={icon} />
                 </RowData>
                 <RowData>
                   <Text>{title}</Text>

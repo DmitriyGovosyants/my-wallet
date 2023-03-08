@@ -1,21 +1,21 @@
 import { FC } from "react";
-import { useGetAccountsQuery } from "redux/accounts/accountsApi";
-import { TitleMain, WrapperInfo } from "components/ui";
+import { FormTransaction, TitleMain, WrapperInfo } from "components/ui";
+import { ITransaction } from "redux/transactionsApi/transactionsApi";
 
-export const TransactionCreate: FC = () => {
-  const { data: userAccounts } = useGetAccountsQuery();
+type TransactionCreateProps = {
+  setTransactionScreen: () => void;
+  transactionData: ITransaction;
+};
+
+export const TransactionCreate: FC<TransactionCreateProps> = ({transactionData, setTransactionScreen}) => {
   
   return (
     <WrapperInfo>
-      <TitleMain fz="30px">Add transaction</TitleMain>
-      <div>
-        Input account
-        Input data
-        
-        input number
-        input comments
-        input radio categories
-      </div>
+      <TitleMain fz="30px">{`New ${transactionData.type}`}</TitleMain>
+      <FormTransaction
+        setTransactionScreen={setTransactionScreen}
+        transactionData={transactionData}
+      />
     </WrapperInfo>
   )
 };

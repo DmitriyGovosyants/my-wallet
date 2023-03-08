@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useAppSelector } from "redux/reduxHooks";
 import { INFO_SCREEN } from "constants/infoState";
-import { AccountsScreen, CategoriesScreen, Transactions, TransactionCreate, Logout } from "components";
+import { AccountsScreen, CategoriesScreen, TransactionsScreen, Logout } from "components";
 import { InfoScreenBox } from "./InfoScreen.styled";
 
 export const InfoScreen: FC = () => {
@@ -9,8 +9,7 @@ export const InfoScreen: FC = () => {
 
   return (
     <InfoScreenBox>
-      {screenStatus === INFO_SCREEN.NEW_TRANSACTION && <TransactionCreate />}
-      {screenStatus === INFO_SCREEN.TRANSACTIONS && <Transactions />}
+      {screenStatus === INFO_SCREEN.TRANSACTIONS && <TransactionsScreen />}
       {screenStatus === INFO_SCREEN.ACCOUNTS && <AccountsScreen />}
       {screenStatus === INFO_SCREEN.CATEGORIES && <CategoriesScreen />}
       {screenStatus === INFO_SCREEN.LOGOUT && <Logout />}

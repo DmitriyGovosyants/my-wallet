@@ -13,7 +13,8 @@ export * from "./menu/MenuTopBar/MenuTopBar";
 export * from "./main/WalletScreen/WalletScreen";
 export * from "./main/InfoScreen/InfoScreen";
 
-export * from "./main/Transactions/Transactions";
+export * from "./main/TransactionsScreen/TransactionsScreen";
+export * from "./main/TransactionsTable/TransactionsTable";
 export * from "./main/TransactionCreate/TransactionCreate";
 
 export * from "./main/AccountsScreen/AccountsScreen";

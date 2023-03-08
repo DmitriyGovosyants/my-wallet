@@ -7,8 +7,8 @@ import { currencyData } from "data/currencyData";
 import { accountsIcons } from "data/accountsIcons";
 import { IAccount, useAddAccountMutation, useUpdateAccountMutation } from "redux/accounts/accountsApi";
 import { useGetSettingsQuery } from "redux/settingsApi/settingsApi";
-import { accountSchema, IErrorAPI, requestErrorPopUp, currentDate } from "utils";
-import { ButtonMain, Input, InputRadioIcons, InputSelect, SpinnerFixed, WrapperButtons } from "components/ui";
+import { accountSchema, IErrorAPI, requestErrorPopUp, getCurrentDate } from "utils";
+import { ButtonMain, Input, InputRadioIcons, InputSelectCurrency, SpinnerFixed, WrapperButtons } from "components/ui";
 import { Form, InputGrid } from "./FormAccount.styled";
 import { toast } from "react-toastify";
 
@@ -29,7 +29,7 @@ export const FormAccount: FC<FormAccountProps> = ({ accountData, setAccountScree
     title: '',
     currency: userSettings?.mainCurrency || 'USD',
     startBalance: 0.00,
-    startDate: currentDate(),
+    startDate: getCurrentDate(),
     icon: accountsIcons[0].label,
   };
 
@@ -80,22 +80,22 @@ export const FormAccount: FC<FormAccountProps> = ({ accountData, setAccountScree
             error={errors?.title?.message}
           />
           <Input
-            name={"startDate"}
-            label={"Start date"}
-            type={"date"}
-            control={control}
-            error={errors?.startDate?.message}
-          />
-        </InputGrid>
-        <InputGrid>
-          <Input
             name={"startBalance"}
             label={"Start balance"}
             type={"number"}
             control={control}
             error={errors?.startBalance?.message}
           />
-          <InputSelect
+        </InputGrid>
+        <InputGrid>
+          <Input
+            name={"startDate"}
+            label={"Start date"}
+            type={"date"}
+            control={control}
+            error={errors?.startDate?.message}
+          />
+          <InputSelectCurrency
             name={"currency"}
             label={"Currency"}
             inputData={currencyData}

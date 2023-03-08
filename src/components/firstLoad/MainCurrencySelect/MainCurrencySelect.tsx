@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FC } from "react";
-import { ButtonMain, InputSelect, TitleMain, SpinnerFixed } from "components/ui";
+import { ButtonMain, InputSelectCurrency, TitleMain, SpinnerFixed } from "components/ui";
 import { useSetCurrencyMutation } from "redux/settingsApi/settingsApi";
 import { currencyData } from "data/currencyData";
 import { currencySchema,IErrorAPI, requestErrorPopUp } from "utils";
@@ -23,7 +23,7 @@ export const MainCurrencySelect: FC = () => {
     const { currency } = data;
     
     try {
-      await setCurrency({ currency }).unwrap();
+      await setCurrency({ mainCurrency: currency }).unwrap();
     } catch (e) {
       requestErrorPopUp(e as IErrorAPI);
     }
@@ -38,7 +38,7 @@ export const MainCurrencySelect: FC = () => {
           noValidate
           autoComplete="off"
         >
-          <InputSelect
+          <InputSelectCurrency
             name={"currency"}
             label={"Currency"}
             inputData={currencyData}

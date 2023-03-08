@@ -1,5 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+export interface IUser {
+  email: string;
+  name: string;
+  password: string;
+};
+
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
@@ -16,11 +22,11 @@ export const authApi = createApi({
   }),
   tagTypes: ['Auth'],
   endpoints: builder => ({
-    getCurrent: builder.query({
+    getCurrent: builder.query<any, any>({
       query: () => `/current`,
       providesTags: ['Auth'],
     }),
-    register: builder.mutation({
+    register: builder.mutation<any, IUser>({
       query: value => ({
         url: `/register`,
         method: 'POST',
@@ -28,7 +34,7 @@ export const authApi = createApi({
       }),
       invalidatesTags: ['Auth'],
     }),
-    login: builder.mutation({
+    login: builder.mutation<any, Omit<IUser, "name">>({
       query: value => ({
         url: `/login`,
         method: 'POST',
@@ -36,7 +42,7 @@ export const authApi = createApi({
       }),
       invalidatesTags: ['Auth'],
     }),
-    logout: builder.mutation({
+    logout: builder.mutation<any, void>({
       query: () => ({
         url: `/logout`,
       }),

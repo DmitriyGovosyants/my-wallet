@@ -1,14 +1,19 @@
-import { INFO_SCREEN } from "constants/infoState";
 import { FC } from "react";
 import { useAppDispatch } from "redux/reduxHooks";
 import { currentScreen } from "redux/screenStatus/screenStatusSlice";
+import { INFO_SCREEN } from "constants/infoState";
 import { Grid, InfoBoard, InfoData, AddButton, RevenueIcon, ExpenseIcon } from "./MenuBottomBar.styled";
 
-export const MenuBottomBar: FC = () => {
+type MenuBottomBarProps = {
+  setTransactionCreateType: (value: string) => void;
+}
+
+export const MenuBottomBar: FC<MenuBottomBarProps> = ({setTransactionCreateType}) => {
   const dispatch = useAppDispatch();
 
   const handleAddRevenue = () => {
-    dispatch(currentScreen(INFO_SCREEN.NEW_TRANSACTION));
+    setTransactionCreateType('2')
+    dispatch(currentScreen(INFO_SCREEN.TRANSACTIONS));
   }
 
   const handleAddExpense = () => {

@@ -8,6 +8,11 @@ export interface IAccount {
   title: string;
   transactions: string[] | [];
   _id: string;
+};
+
+export interface IAccountUpdate {
+  accountID: string;
+  body: Omit<IAccount, "_id">;
 }
 
 export const accountsApi = createApi({
@@ -40,7 +45,7 @@ export const accountsApi = createApi({
       }),
       invalidatesTags: ['Accounts']
     }),
-    updateAccount: builder.mutation({
+    updateAccount: builder.mutation<any, IAccountUpdate>({
       query: ({ accountID, body}) => ({
         url: `/${accountID}`,
         method: 'PUT',
@@ -48,7 +53,7 @@ export const accountsApi = createApi({
       }),
       invalidatesTags: ['Accounts']
     }),
-    deleteAccount: builder.mutation({
+    deleteAccount: builder.mutation<any, string>({
       query: accountID => ({
         url: `/${accountID}`,
         method: 'DELETE',

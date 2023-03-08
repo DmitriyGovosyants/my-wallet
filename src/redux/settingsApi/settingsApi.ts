@@ -26,7 +26,7 @@ export const settingsApi = createApi({
       transformResponse:
         (response: {  settings: ISettings }) => response.settings,
     }),
-    setCurrency: builder.mutation({
+    setCurrency: builder.mutation<any, ISettings>({
       query: currency => ({
         url: '',
         method: 'PUT',

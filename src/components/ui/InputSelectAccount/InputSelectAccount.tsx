@@ -1,20 +1,20 @@
 import { Typography, MenuItem } from "@mui/material";
+import { accountsIcons } from "data/accountsIcons";
 import { FC } from "react";
 import { Controller, Control } from "react-hook-form";
-import { SelectStyled } from "./InputSelect.styled";
+import { IAccount } from "redux/accounts/accountsApi";
+import { getIconSrc } from "utils";
+import { SelectStyled } from "./InputSelectAccount.styled";
 
-interface InputSelectProps {
+interface InputSelectAccountProps {
   name: string;
   label: string;
-  inputData: {
-    value: string;
-    label: string;
-  }[];
+  inputData: IAccount[] | undefined;
   control: Control<any>;
   error: string | undefined;
 }
 
-export const InputSelect: FC<InputSelectProps> = ({name, label, inputData, control, error}) => {
+export const InputSelectAccount: FC<InputSelectAccountProps> = ({name, label, inputData, control, error}) => {
   return (
     <div>
       <Controller
@@ -28,9 +28,11 @@ export const InputSelect: FC<InputSelectProps> = ({name, label, inputData, contr
             onChange={onChange}
             variant="standard"
           >
-            {inputData.map(({value}) => (
-              <MenuItem key={value} value={value}>
-                {value}
+            {inputData?.map(({_id, title, icon, currency}) => (
+              <MenuItem key={_id} value={_id}>
+                <img src={getIconSrc(icon, accountsIcons)} alt={title} />
+                {title}
+                {currency}
               </MenuItem>
             ))}
           </SelectStyled>

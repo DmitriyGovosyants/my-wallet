@@ -8,7 +8,8 @@ const initialCategory = {
   title: "",
   icon: "",
   _id: "",
-}
+};
+
 export const CategoriesScreen: FC = () => {
   const [categoryScreen, setCategoryScreen] = useState<string>(CATEGORIES_SCREEN.TABLE);
   const [categoryData, setCategoryData] = useState<ICategory>(initialCategory);
@@ -29,7 +30,7 @@ export const CategoriesScreen: FC = () => {
       />}
       {categoryScreen === CATEGORIES_SCREEN.DELETE && <CategoryDelete
         categoryData={categoryData}
-        setCategoryScreen={() => setCategoryScreen(CATEGORIES_SCREEN.TABLE)}
+        setCategoryScreen={setCategoryScreen}
       />}
     </>
   )

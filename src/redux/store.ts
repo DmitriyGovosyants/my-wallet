@@ -17,6 +17,7 @@ import { accountsApi } from './accounts/accountsApi';
 import { screenStatusSlice } from './screenStatus/screenStatusSlice';
 import { settingsApi } from './settingsApi/settingsApi';
 import { categoriesApi } from './categoriesApi/categoriesApi';
+import { transactionsApi } from './transactionsApi/transactionsApi';
 
 const persistConfig = {
   key: 'auth',
@@ -30,6 +31,7 @@ const reducers = combineReducers({
   [settingsApi.reducerPath]: settingsApi.reducer,
   [accountsApi.reducerPath]: accountsApi.reducer,
   [categoriesApi.reducerPath]: categoriesApi.reducer,
+  [transactionsApi.reducerPath]: transactionsApi.reducer,
   auth: persistReducer(persistConfig, authSlice.reducer),
   screenStatus: screenStatusSlice.reducer,
 })
@@ -47,6 +49,7 @@ export const store = configureStore({
     settingsApi.middleware,
     accountsApi.middleware,
     categoriesApi.middleware,
+    transactionsApi.middleware,
   ],
 });
 

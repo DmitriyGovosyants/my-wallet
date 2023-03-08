@@ -3,9 +3,10 @@ import { toast } from "react-toastify";
 import { ICategory, useDeleteCategoryMutation } from "redux/categoriesApi/categoriesApi";
 import { IErrorAPI, requestErrorPopUp } from "utils";
 import { ButtonMain, TitleMain, SpinnerFixed, WrapperButtons, WrapperInfo } from "components/ui";
+import { CATEGORIES_SCREEN } from "constants/categoriesScreen";
 
 type CategoryDeleteProps = {
-  setCategoryScreen: () => void;
+  setCategoryScreen: (value: string) => void;
   categoryData: ICategory;
 };
 
@@ -16,7 +17,7 @@ export const CategoryDelete: FC<CategoryDeleteProps> = ({categoryData, setCatego
     try {
       await deleteCategory(categoryData._id).unwrap();
       toast.info(`"${categoryData.title}" category deleted`);
-      setCategoryScreen();
+      setCategoryScreen(CATEGORIES_SCREEN.TABLE);
     } catch (e) {
       requestErrorPopUp(e as IErrorAPI);
     }
@@ -34,7 +35,7 @@ export const CategoryDelete: FC<CategoryDeleteProps> = ({categoryData, setCatego
             Delete
           </ButtonMain>
           <ButtonMain
-            onClick={setCategoryScreen}
+            onClick={() => setCategoryScreen(CATEGORIES_SCREEN.EDIT)}
           >
             Back
           </ButtonMain>

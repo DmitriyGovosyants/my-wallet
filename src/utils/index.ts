@@ -1,5 +1,5 @@
 export * from "./formValidation";
-export * from "./handleDate";
+export * from "./getCurrentDate";
 export * from "./requestErrorPopUp";
-export * from "./getAccountIconSrc";
+export * from "./getIconSrc";
 export * from "./getCurrencyLabel";

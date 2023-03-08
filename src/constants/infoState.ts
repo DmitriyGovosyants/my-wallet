@@ -6,5 +6,4 @@ export const INFO_SCREEN = {
   LOGOUT: 'logout',
   USER: 'user',
   SETTINGS: 'settings',
-  NEW_TRANSACTION: 'new transaction',
 };

@@ -58,7 +58,7 @@ const title = Yup.string()
   .min(2)
   .max(16);
 
-const startBalance = Yup.number()
+const mainNumber = Yup.number()
   .required('Start balance is required')
   .min(-1000000000000)
   .max(1000000000000)
@@ -80,6 +80,16 @@ const startDate = Yup.string()
 const icon = Yup.string()
   .required('Icon is required');
 
+const account_id = Yup.string()
+  .required('Account is required');
+
+const comment = Yup.string()
+  .trim()
+  .max(32);
+
+const category_id = Yup.string()
+  .required('Category is required');
+
 export const loginSchema = Yup.object({
   email,
   password,
@@ -99,7 +109,7 @@ export const currencySchema = Yup.object({
 export const accountSchema = Yup.object({
   title,
   currency,
-  startBalance,
+  startBalance: mainNumber,
   startDate,
   icon,
 });
@@ -107,4 +117,12 @@ export const accountSchema = Yup.object({
 export const categorySchema = Yup.object({
   title,
   icon,
+});
+
+export const transactionSchema = Yup.object({
+  account_id,
+  date: startDate,
+  value: mainNumber,
+  comment,
+  category_id,
 });

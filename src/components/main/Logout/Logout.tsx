@@ -12,7 +12,7 @@ export const Logout: FC = () => {
 
   const handleLogout = async (): Promise<void> => {
     try {
-      await logout({}).unwrap();
+      await logout().unwrap();
       handleChangeScreen(INFO_SCREEN.TRANSACTIONS);
     } catch (e) {
       requestErrorPopUp(e as IErrorAPI);

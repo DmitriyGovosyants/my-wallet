@@ -21,8 +21,8 @@ type FormCategoryProps = {
 type FormData = yup.InferType<typeof categorySchema>;
 
 export const FormCategory: FC<FormCategoryProps> = ({ formTypeEdit, categoryData, setCategoryScreen }) => {
-  const [addCategory, { isLoading: isAddingAccount }] = useAddCategoryMutation();
-  const [updateCategory, { isLoading: isUpdatingAccount }] = useUpdateCategoryMutation();
+  const [addCategory, { isLoading: isAddingCategory }] = useAddCategoryMutation();
+  const [updateCategory, { isLoading: isUpdatingCategory }] = useUpdateCategoryMutation();
 
   const createDefaultValues = {
     title: '',
@@ -77,8 +77,8 @@ export const FormCategory: FC<FormCategoryProps> = ({ formTypeEdit, categoryData
           error={errors?.icon?.message}
         />
         <WrapperButtons>
-          <ButtonMain isDisabled={isAddingAccount} type="submit">
-            {formTypeEdit ? 'edit' : 'create'}
+          <ButtonMain isDisabled={isAddingCategory || isUpdatingCategory} type="submit">
+            {formTypeEdit ? 'update' : 'create'}
           </ButtonMain>
           {formTypeEdit && 
             <ButtonMain onClick={() => setCategoryScreen(CATEGORIES_SCREEN.DELETE)}>
@@ -90,7 +90,7 @@ export const FormCategory: FC<FormCategoryProps> = ({ formTypeEdit, categoryData
           </ButtonMain>
         </WrapperButtons>
       </Form>
-      {isAddingAccount && <SpinnerFixed />}
+      {(isAddingCategory || isUpdatingCategory) && <SpinnerFixed />}
     </>
   )
 };

@@ -12,6 +12,11 @@ export interface ICategory {
   _id: string;
 };
 
+export interface ICategoryUpdate {
+  categoryID: string;
+  body: Omit<ICategory, "_id">;
+}
+
 export const categoriesApi = createApi({
   reducerPath: 'categoriesApi',
   baseQuery: fetchBaseQuery({
@@ -42,7 +47,7 @@ export const categoriesApi = createApi({
       }),
       invalidatesTags: ['Categories']
     }),
-    updateCategory: builder.mutation({
+    updateCategory: builder.mutation<any, ICategoryUpdate>({
       query: ({ categoryID, body}) => ({
         url: `/${categoryID}`,
         method: 'PUT',
@@ -50,7 +55,7 @@ export const categoriesApi = createApi({
       }),
       invalidatesTags: ['Categories']
     }),
-    deleteCategory: builder.mutation({
+    deleteCategory: builder.mutation<any, string>({
       query: categoryID => ({
         url: `/${categoryID}`,
         method: 'DELETE',

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { ButtonIcon, TitleMain, WrapperInfo } from "components/ui";
-import { getAccountIconSrc } from "utils";
+import { getIconSrc } from "utils";
 import { categoryTypes, ICategory, useGetCategoriesQuery } from "redux/categoriesApi/categoriesApi";
 import { TitleWrapper, CategoryIcon, IconItem, IconList } from "./CategoriesTable.styled";
 import { CATEGORIES_SCREEN } from "constants/categoriesScreen";
@@ -10,7 +10,7 @@ import { MdAddCircleOutline } from "react-icons/md";
 type CategoriesTableProps = {
   setCategoryScreen: (value: string) => void;
   setCategoryData: (value: ICategory | ((prevState: ICategory) => ICategory)) => void;
-}
+};
 
 export const CategoriesTable: FC<CategoriesTableProps> = ({ setCategoryScreen, setCategoryData }) => {
   const { data: userCategories } = useGetCategoriesQuery();
@@ -38,7 +38,7 @@ export const CategoriesTable: FC<CategoriesTableProps> = ({ setCategoryScreen, s
         {userCategories && (
           userCategories.filter(({type}) => type === categoryTypes.Revenue).map(category =>
             <IconItem key={category._id} onClick={() => handleEditCategory(category)}>
-              <CategoryIcon src={getAccountIconSrc(category.icon, categoriesIcons)} alt={category.icon} />
+              <CategoryIcon src={getIconSrc(category.icon, categoriesIcons)} alt={category.icon} />
               <p>{category.title}</p>
             </IconItem>
           )
@@ -54,7 +54,7 @@ export const CategoriesTable: FC<CategoriesTableProps> = ({ setCategoryScreen, s
         {userCategories && (
           userCategories.filter(({type}) => type === categoryTypes.Expense).map(category =>
             <IconItem key={category._id} onClick={() => handleEditCategory(category)}>
-              <CategoryIcon src={getAccountIconSrc(category.icon, categoriesIcons)} alt={category.icon} />
+              <CategoryIcon src={getIconSrc(category.icon, categoriesIcons)} alt={category.icon} />
               <p>{category.title}</p>
             </IconItem>
           )

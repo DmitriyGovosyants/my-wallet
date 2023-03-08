@@ -1,4 +1,4 @@
-export const currentDate = () => {
+export const getCurrentDate = () => {
   const d = new Date();
   let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
   let mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(d);

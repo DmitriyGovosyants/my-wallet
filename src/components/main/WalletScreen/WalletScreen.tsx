@@ -12,6 +12,7 @@ export const WalletScreen: FC = () => {
   const { data: userAccounts } = useGetAccountsQuery();
   const { data: userCategories } = useGetCategoriesQuery();
   const [appScreen, setAppScreen] = useState<string>(APP_SCREEN.EMPTY);
+  const [transactionCreateType, setTransactionCreateType] = useState('');
 
   useEffect(() => {
     const isMainCurrencySelectScreen: boolean = userSettings?.mainCurrency === '';
@@ -46,7 +47,7 @@ export const WalletScreen: FC = () => {
               <InfoScreen />
               <NavArrow direction={'right'}/>
             </CenterGrid>
-            <MenuBottomBar />
+            <MenuBottomBar setTransactionCreateType={setTransactionCreateType} />
           </CenterColumnGrid>
           <MenuRightBar />
         </MainGrid>
