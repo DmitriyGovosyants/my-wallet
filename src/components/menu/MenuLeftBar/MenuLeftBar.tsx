@@ -1,34 +1,29 @@
 import { FC } from "react";
-import { useAppDispatch } from "redux/reduxHooks";
-import { currentScreen } from "redux/screenStatus/screenStatusSlice";
 import { InterfaceButton, InterfaceButtonBox } from "components/ui";
-import { INFO_SCREEN } from "constants/infoState";
 import { Background } from "./MenuLeftBar.styled";
+import { SCREEN } from "constants/screenStatus";
+import { useChangeScreen } from "hooks/useChangeScreen";
 
 export const MenuLeftBar: FC = () => {
-  const dispatch = useAppDispatch();
-
-  const handleChangeScreen = (screenState: string): void => {
-    dispatch(currentScreen(screenState));
-  };
+  const handleChangeScreen = useChangeScreen();
 
   return (
     <Background>
       <InterfaceButtonBox>
         <InterfaceButton
-          onClick={() => handleChangeScreen(INFO_SCREEN.TRANSACTIONS)}
+          onClick={() => handleChangeScreen(SCREEN["TRANSACTION.TABLE"])}
           title={'Transactions'}
         />
         <InterfaceButton
-          onClick={() => handleChangeScreen(INFO_SCREEN.ACCOUNTS)}
+          onClick={() => handleChangeScreen(SCREEN["ACCOUNTS.TABLE"])}
           title={'Accounts'}
         />
         <InterfaceButton
-          onClick={() => handleChangeScreen(INFO_SCREEN.TRANSFER)}
+          onClick={() => handleChangeScreen(SCREEN["TRANSFER.TABLE"])}
           title={'Transfer'}
         />
         <InterfaceButton
-          onClick={() => handleChangeScreen(INFO_SCREEN.CATEGORIES)}
+          onClick={() => handleChangeScreen(SCREEN["CATEGORIES.TABLE"])}
           title={'Categories'}
         />
       </InterfaceButtonBox>

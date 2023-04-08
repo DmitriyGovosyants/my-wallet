@@ -1,19 +1,14 @@
 import { FC } from "react";
-import { useAppDispatch } from "redux/reduxHooks";
-import { currentScreen } from "redux/screenStatus/screenStatusSlice";
-import { INFO_SCREEN } from "constants/infoState";
 import { Button, CloseIcon } from "./ButtonClose.styled";
+import { SCREEN } from "constants/screenStatus";
+import { useChangeScreen } from "hooks/useChangeScreen";
 
 export const ButtonClose: FC = () => {
-  const dispatch = useAppDispatch();
-
-  const handleChangeScreen = (screenState: string): void => {
-    dispatch(currentScreen(screenState));
-  };
+  const handleChangeScreen = useChangeScreen();
 
   return (
     <Button
-      onClick={() => handleChangeScreen(INFO_SCREEN.TRANSACTIONS)}
+      onClick={() => handleChangeScreen(SCREEN["TRANSACTION.TABLE"])}
     >
       <CloseIcon />
     </Button>

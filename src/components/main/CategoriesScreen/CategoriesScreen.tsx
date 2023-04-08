@@ -1,7 +1,9 @@
 import { FC, useState } from "react";
-import { CategoriesTable, CategoryCreate, CategoryDelete, CategoryEdit } from "components";
+import { CategoriesTable, CategoryDelete } from "components";
 import { ICategory, categoryTypes } from "redux/categoriesApi/categoriesApi";
-import { CATEGORIES_SCREEN } from "constants/categoriesScreen";
+import { SCREEN } from "constants/screenStatus";
+import { useAppSelector } from "redux/reduxHooks";
+import { FormCategory } from "components/ui";
 
 const initialCategory = {
   type: categoryTypes.Revenue,
@@ -11,26 +13,25 @@ const initialCategory = {
 };
 
 export const CategoriesScreen: FC = () => {
-  const [categoryScreen, setCategoryScreen] = useState<string>(CATEGORIES_SCREEN.TABLE);
+  const screenStatus = useAppSelector(({ screenStatus }) => screenStatus);
   const [categoryData, setCategoryData] = useState<ICategory>(initialCategory);
 
   return (
     <>
-      {categoryScreen === CATEGORIES_SCREEN.TABLE && <CategoriesTable
-        setCategoryScreen={setCategoryScreen}
+      {screenStatus === SCREEN["CATEGORIES.TABLE"] && <CategoriesTable
         setCategoryData={setCategoryData}
       />}
-      {categoryScreen === CATEGORIES_SCREEN.CREATE && <CategoryCreate
+      {screenStatus === SCREEN["CATEGORIES.CREATE"] && <FormCategory
+        title={`New ${categoryData.type} category`}
         categoryData={categoryData}
-        setCategoryScreen={() => setCategoryScreen(CATEGORIES_SCREEN.TABLE)}
       />}
-      {categoryScreen === CATEGORIES_SCREEN.EDIT && <CategoryEdit
+      {screenStatus === SCREEN["CATEGORIES.EDIT"] && <FormCategory
+        title={`"${categoryData.title}" ${categoryData.type} category`}
         categoryData={categoryData}
-        setCategoryScreen={setCategoryScreen}
+        formTypeEdit
       />}
-      {categoryScreen === CATEGORIES_SCREEN.DELETE && <CategoryDelete
+      {screenStatus === SCREEN["CATEGORIES.DELETE"] && <CategoryDelete
         categoryData={categoryData}
-        setCategoryScreen={setCategoryScreen}
       />}
     </>
   )

@@ -1,7 +1,9 @@
-import { TRANSACTIONS_SCREEN } from "constants/transactionScreen";
 import { FC, useState } from "react";
 import { ITransaction, transactionTypes } from "redux/transactionsApi/transactionsApi";
-import { TransactionCreate, TransactionsTable } from "components";
+import { TransactionsTable } from "components";
+import { SCREEN } from "constants/screenStatus";
+import { useAppSelector } from "redux/reduxHooks";
+import { FormTransaction } from "components/ui";
 
 const initialTransaction = {
   type: transactionTypes.Revenue,
@@ -13,19 +15,15 @@ const initialTransaction = {
 };
 
 export const TransactionsScreen: FC = () => {
-  const [transactionScreen, setTransactionScreen] = useState<string>(TRANSACTIONS_SCREEN.TABLE);
+  const screenStatus = useAppSelector(({ screenStatus }) => screenStatus);
   const [transactionData, setTransactionData] = useState<ITransaction>(initialTransaction);
   
   return (
     <>
-      {transactionScreen === TRANSACTIONS_SCREEN.TABLE && <TransactionsTable
-        setTransactionScreen={setTransactionScreen}
-        setTransactionData={setTransactionData}
-      />}
-      {transactionScreen === TRANSACTIONS_SCREEN.CREATE && <TransactionCreate
-        transactionData={transactionData}
-        setTransactionScreen={() => setTransactionScreen(TRANSACTIONS_SCREEN.TABLE)}
-      />}
+      {screenStatus === SCREEN["TRANSACTION.TABLE"] &&
+        <TransactionsTable setTransactionData={setTransactionData} />}
+      {screenStatus === SCREEN["TRANSACTION.CREATE"] &&
+        <FormTransaction transactionData={transactionData} />}
       {/* {categoryScreen === CATEGORIES_SCREEN.EDIT && <CategoryEdit
         categoryData={categoryData}
         setCategoryScreen={setCategoryScreen}

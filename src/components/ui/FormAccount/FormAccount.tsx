@@ -8,22 +8,25 @@ import { accountsIcons } from "data/accountsIcons";
 import { IAccount, useAddAccountMutation, useUpdateAccountMutation } from "redux/accounts/accountsApi";
 import { useGetSettingsQuery } from "redux/settingsApi/settingsApi";
 import { accountSchema, IErrorAPI, requestErrorPopUp, getCurrentDate } from "utils";
-import { ButtonMain, Input, InputRadioIcons, InputSelectCurrency, SpinnerFixed, WrapperButtons } from "components/ui";
+import { ButtonMain, Input, InputRadioIcons, InputSelectCurrency, SpinnerFixed, TitleMain, WrapperButtons, WrapperInfo } from "components/ui";
 import { Form, InputGrid } from "./FormAccount.styled";
 import { toast } from "react-toastify";
+import { useChangeScreen } from "hooks/useChangeScreen";
+import { SCREEN } from "constants/screenStatus";
 
 type FormAccountProps = {
   accountData?: IAccount;
-  setAccountScreen?: () => void;
+  title: string;
   firstAccountCreate?: boolean;
 };
 
 type FormData = yup.InferType<typeof accountSchema>;
 
-export const FormAccount: FC<FormAccountProps> = ({ accountData, setAccountScreen, firstAccountCreate }) => {
+export const FormAccount: FC<FormAccountProps> = ({ accountData, title, firstAccountCreate }) => {
   const { data: userSettings } = useGetSettingsQuery();
   const [addAccount, { isLoading: isAddingAccount }] = useAddAccountMutation();
   const [updateAccount, { isLoading: isUpdatingAccount }] = useUpdateAccountMutation();
+  const handleChangeScreen = useChangeScreen();
 
   const createDefaultValues = {
     title: '',
@@ -56,8 +59,8 @@ export const FormAccount: FC<FormAccountProps> = ({ accountData, setAccountScree
         await updateAccount({ accountID: accountData._id, body: { transactions: accountData.transactions, ...data } }).unwrap();
         toast.info(`"${data.title}" account updated`);
       }
-      if (setAccountScreen) {
-        setAccountScreen();
+      if (!firstAccountCreate) {
+        handleChangeScreen(SCREEN["ACCOUNTS.TABLE"]);
       }
     } catch (e) {
       requestErrorPopUp(e as IErrorAPI);
@@ -65,7 +68,8 @@ export const FormAccount: FC<FormAccountProps> = ({ accountData, setAccountScree
   };
 
   return (
-    <>
+    <WrapperInfo>
+      <TitleMain fz="30px">{title}</TitleMain>
       <Form
         onSubmit={handleSubmit(onSubmit)}
         noValidate
@@ -114,14 +118,14 @@ export const FormAccount: FC<FormAccountProps> = ({ accountData, setAccountScree
           <ButtonMain isDisabled={isAddingAccount || isUpdatingAccount} type="submit">
             {accountData ? 'Update' : 'Create'}
           </ButtonMain>
-          {setAccountScreen && 
-            <ButtonMain onClick={setAccountScreen}>
+          {!firstAccountCreate && 
+            <ButtonMain onClick={() => handleChangeScreen(SCREEN["ACCOUNTS.TABLE"])}>
               Back
             </ButtonMain>
           }
         </WrapperButtons>
       </Form>
       {(isAddingAccount || isUpdatingAccount) && <SpinnerFixed />}
-    </>
+    </WrapperInfo>
   )
 };

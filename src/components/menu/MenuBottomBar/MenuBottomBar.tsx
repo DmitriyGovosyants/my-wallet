@@ -1,19 +1,18 @@
 import { FC } from "react";
-import { useAppDispatch } from "redux/reduxHooks";
-import { currentScreen } from "redux/screenStatus/screenStatusSlice";
-import { INFO_SCREEN } from "constants/infoState";
 import { Grid, InfoBoard, InfoData, AddButton, RevenueIcon, ExpenseIcon } from "./MenuBottomBar.styled";
+import { useChangeScreen } from "hooks/useChangeScreen";
+import { SCREEN } from "constants/screenStatus";
 
 type MenuBottomBarProps = {
   setTransactionCreateType: (value: string) => void;
 }
 
 export const MenuBottomBar: FC<MenuBottomBarProps> = ({setTransactionCreateType}) => {
-  const dispatch = useAppDispatch();
+  const handleChangeScreen = useChangeScreen();
 
   const handleAddRevenue = () => {
     setTransactionCreateType('2')
-    dispatch(currentScreen(INFO_SCREEN.TRANSACTIONS));
+    handleChangeScreen(SCREEN["TRANSACTION.CREATE"]);
   }
 
   const handleAddExpense = () => {

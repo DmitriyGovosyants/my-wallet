@@ -5,24 +5,25 @@ import { FC } from "react";
 import { toast } from "react-toastify";
 
 import { transactionSchema, IErrorAPI, requestErrorPopUp, getCurrentDate, getIconSrc } from "utils";
-import { ButtonMain, Input, InputRadioCategories, InputSelectAccount, SpinnerFixed, WrapperButtons } from "components/ui";
+import { ButtonMain, Input, InputRadioCategories, InputSelectAccount, SpinnerFixed, TitleMain, WrapperButtons, WrapperInfo } from "components/ui";
 import { Form } from "./FormTransaction.styled";
-import { TRANSACTIONS_SCREEN } from "constants/transactionScreen";
 import { ITransaction, useAddTransactionMutation, useUpdateTransactionMutation } from "redux/transactionsApi/transactionsApi";
 import { InputGrid } from "../FormAccount/FormAccount.styled";
 import { useGetCategoriesQuery } from "redux/categoriesApi/categoriesApi";
 import { useGetAccountsQuery } from "redux/accounts/accountsApi";
+import { useChangeScreen } from "hooks/useChangeScreen";
+import { SCREEN } from "constants/screenStatus";
 
 
 type FormTransactionProps = {
   transactionData: ITransaction;
   formTypeEdit?: boolean;
-  setTransactionScreen: (value: string) => void;
 };
 
 type FormData = yup.InferType<typeof transactionSchema>;
 
-export const FormTransaction: FC<FormTransactionProps> = ({ formTypeEdit, transactionData, setTransactionScreen }) => {
+export const FormTransaction: FC<FormTransactionProps> = ({ formTypeEdit, transactionData }) => {
+  const handleChangeScreen = useChangeScreen();
   const [addTransaction, { isLoading: isAddingTransaction }] = useAddTransactionMutation();
   const [updateTransaction, { isLoading: isUpdatingTransaction }] = useUpdateTransactionMutation();
   const { data: userCategories, isLoading: isLoadingCategories } = useGetCategoriesQuery();
@@ -64,7 +65,8 @@ export const FormTransaction: FC<FormTransactionProps> = ({ formTypeEdit, transa
   };
 
   return (
-    <>
+    <WrapperInfo>
+      <TitleMain fz="30px">{`New ${transactionData.type}`}</TitleMain>
       <Form
         onSubmit={handleSubmit(onSubmit)}
         noValidate
@@ -114,11 +116,11 @@ export const FormTransaction: FC<FormTransactionProps> = ({ formTypeEdit, transa
             {formTypeEdit ? 'uodate' : 'create'}
           </ButtonMain>
           {formTypeEdit && 
-            <ButtonMain onClick={() => setTransactionScreen(TRANSACTIONS_SCREEN.DELETE)}>
+            <ButtonMain onClick={() => handleChangeScreen(SCREEN["TRANSACTION.DELETE"])}>
               delete
             </ButtonMain>
           }
-          <ButtonMain onClick={() => setTransactionScreen(TRANSACTIONS_SCREEN.TABLE)}>
+          <ButtonMain onClick={() => handleChangeScreen(SCREEN["TRANSACTION.TABLE"])}>
             back
           </ButtonMain>
         </WrapperButtons>
@@ -138,6 +140,6 @@ export const FormTransaction: FC<FormTransactionProps> = ({ formTypeEdit, transa
           /> */}
       </Form>
       {isAddingTransaction && <SpinnerFixed />}
-    </>
+    </WrapperInfo>
   )
 };

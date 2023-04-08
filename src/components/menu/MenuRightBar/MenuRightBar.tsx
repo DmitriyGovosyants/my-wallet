@@ -1,30 +1,25 @@
 import { FC } from "react";
-import { useAppDispatch } from "redux/reduxHooks";
-import { currentScreen } from "redux/screenStatus/screenStatusSlice";
 import { InterfaceButton, InterfaceButtonBox } from "components/ui";
-import { INFO_SCREEN } from "constants/infoState";
 import { Background } from "./MenuRightBar.styled";
+import { useChangeScreen } from "hooks/useChangeScreen";
+import { SCREEN } from "constants/screenStatus";
 
 export const MenuRightBar: FC = () => {
-  const dispatch = useAppDispatch();
-
-  const handleChangeScreen = (screenState: string): void => {
-    dispatch(currentScreen(screenState));
-  };
+  const handleChangeScreen = useChangeScreen();
 
   return (
     <Background>
       <InterfaceButtonBox>
         <InterfaceButton
-          onClick={() => handleChangeScreen(INFO_SCREEN.USER)}
+          onClick={() => handleChangeScreen(SCREEN.USER)}
           title={'User'}
         />
         <InterfaceButton
-          onClick={() => handleChangeScreen(INFO_SCREEN.SETTINGS)}
+          onClick={() => handleChangeScreen(SCREEN.SETTINGS)}
           title={'Settings'}
         />
         <InterfaceButton
-          onClick={() => handleChangeScreen(INFO_SCREEN.LOGOUT)}
+          onClick={() => handleChangeScreen(SCREEN.LOGOUT)}
           title={'Logout'}
         />
       </InterfaceButtonBox>

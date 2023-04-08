@@ -23,3 +23,13 @@ export const CenterGrid = styled.div`
    inset -5px 5px 20px ${p => p.theme.colors.bgShadow}
   ;
 `
+
+export const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding-top: 100px;
+
+  background-color: ${p => p.theme.colors.bgSecond};
+`

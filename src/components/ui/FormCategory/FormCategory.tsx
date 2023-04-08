@@ -7,22 +7,24 @@ import { toast } from "react-toastify";
 import { categoriesIcons } from "data/categoriesIcons";
 import { ICategory, useAddCategoryMutation, useUpdateCategoryMutation } from "redux/categoriesApi/categoriesApi";
 import { categorySchema, IErrorAPI, requestErrorPopUp } from "utils";
-import { ButtonMain, Input, InputRadioIcons, SpinnerFixed, WrapperButtons } from "components/ui";
+import { ButtonMain, Input, InputRadioIcons, SpinnerFixed, TitleMain, WrapperButtons, WrapperInfo } from "components/ui";
 import { Form } from "./FormCategory.styled";
-import { CATEGORIES_SCREEN } from "constants/categoriesScreen";
+import { useChangeScreen } from "hooks/useChangeScreen";
+import { SCREEN } from "constants/screenStatus";
 
 
 type FormCategoryProps = {
   categoryData: ICategory;
+  title: string;
   formTypeEdit?: boolean;
-  setCategoryScreen: (value: string) => void;
 };
 
 type FormData = yup.InferType<typeof categorySchema>;
 
-export const FormCategory: FC<FormCategoryProps> = ({ formTypeEdit, categoryData, setCategoryScreen }) => {
+export const FormCategory: FC<FormCategoryProps> = ({ formTypeEdit, title, categoryData }) => {
   const [addCategory, { isLoading: isAddingCategory }] = useAddCategoryMutation();
   const [updateCategory, { isLoading: isUpdatingCategory }] = useUpdateCategoryMutation();
+  const handleChangeScreen = useChangeScreen();
 
   const createDefaultValues = {
     title: '',
@@ -49,14 +51,15 @@ export const FormCategory: FC<FormCategoryProps> = ({ formTypeEdit, categoryData
         await updateCategory({ categoryID: categoryData._id, body: { type: categoryData.type, ...data } }).unwrap();
         toast.info(`"${data.title}" category updated`);
       }
-      setCategoryScreen(CATEGORIES_SCREEN.TABLE);
+      handleChangeScreen(SCREEN["CATEGORIES.TABLE"]);
     } catch (e) {
       requestErrorPopUp(e as IErrorAPI);
     }
   };
 
   return (
-    <>
+    <WrapperInfo>
+      <TitleMain fz="30px">{title}</TitleMain>
       <Form
         onSubmit={handleSubmit(onSubmit)}
         noValidate
@@ -81,16 +84,16 @@ export const FormCategory: FC<FormCategoryProps> = ({ formTypeEdit, categoryData
             {formTypeEdit ? 'update' : 'create'}
           </ButtonMain>
           {formTypeEdit && 
-            <ButtonMain onClick={() => setCategoryScreen(CATEGORIES_SCREEN.DELETE)}>
+            <ButtonMain onClick={() => handleChangeScreen(SCREEN["CATEGORIES.DELETE"])}>
               delete
             </ButtonMain>
           }
-          <ButtonMain onClick={() => setCategoryScreen(CATEGORIES_SCREEN.TABLE)}>
+          <ButtonMain onClick={() => handleChangeScreen(SCREEN["CATEGORIES.TABLE"])}>
             back
           </ButtonMain>
         </WrapperButtons>
       </Form>
       {(isAddingCategory || isUpdatingCategory) && <SpinnerFixed />}
-    </>
+    </WrapperInfo>
   )
 };

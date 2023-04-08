@@ -1,26 +1,23 @@
 import { FC } from "react";
-import { INFO_SCREEN } from "constants/infoState";
 import { useLogoutMutation } from "redux/auth/authApi";
-import { useAppDispatch } from "redux/reduxHooks";
-import { currentScreen } from "redux/screenStatus/screenStatusSlice";
 import { IErrorAPI, requestErrorPopUp } from "utils";
 import { ButtonMain, TitleMain, SpinnerFixed, WrapperButtons, WrapperInfo } from "components/ui";
+import { useChangeScreen } from "hooks/useChangeScreen";
+import { SCREEN } from "constants/screenStatus";
+import { useAppDispatch } from "redux/reduxHooks";
 
 export const Logout: FC = () => {
   const [logout, { isLoading }] = useLogoutMutation();
+  const handleChangeScreen = useChangeScreen();
   const dispatch = useAppDispatch();
 
   const handleLogout = async (): Promise<void> => {
     try {
       await logout().unwrap();
-      handleChangeScreen(INFO_SCREEN.TRANSACTIONS);
+      dispatch({type: 'USER_LOGOUT'})
     } catch (e) {
       requestErrorPopUp(e as IErrorAPI);
     }
-  };
-
-  const handleChangeScreen = (screenState: string): void => {
-    dispatch(currentScreen(screenState));
   };
 
   return (
@@ -34,7 +31,7 @@ export const Logout: FC = () => {
             Yes
           </ButtonMain>
           <ButtonMain
-            onClick={() => handleChangeScreen(INFO_SCREEN.TRANSACTIONS)}
+            onClick={() => handleChangeScreen(SCREEN["TRANSACTION.TABLE"])}
           >
             No
           </ButtonMain>

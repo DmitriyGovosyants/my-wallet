@@ -15,17 +15,12 @@ export * from "./main/InfoScreen/InfoScreen";
 
 export * from "./main/TransactionsScreen/TransactionsScreen";
 export * from "./main/TransactionsTable/TransactionsTable";
-export * from "./main/TransactionCreate/TransactionCreate";
 
 export * from "./main/AccountsScreen/AccountsScreen";
 export * from "./main/AccountsTable/AccountsTable";
-export * from "./main/AccountCreate/AccountCreate";
 export * from "./main/AccountDelete/AccountDelete";
-export * from "./main/AccountUpdate/AccountUpdate";
 
 export * from "./main/CategoriesScreen/CategoriesScreen";
 export * from "./main/CategoriesTable/CategoriesTable";
-export * from "./main/CategoryCreate/CategoryCreate";
-export * from "./main/CategoryEdit/CategoryEdit";
 export * from "./main/CategoryDelete/CategoryDelete";
 

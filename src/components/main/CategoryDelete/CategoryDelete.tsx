@@ -3,21 +3,22 @@ import { toast } from "react-toastify";
 import { ICategory, useDeleteCategoryMutation } from "redux/categoriesApi/categoriesApi";
 import { IErrorAPI, requestErrorPopUp } from "utils";
 import { ButtonMain, TitleMain, SpinnerFixed, WrapperButtons, WrapperInfo } from "components/ui";
-import { CATEGORIES_SCREEN } from "constants/categoriesScreen";
+import { useChangeScreen } from "hooks/useChangeScreen";
+import { SCREEN } from "constants/screenStatus";
 
 type CategoryDeleteProps = {
-  setCategoryScreen: (value: string) => void;
   categoryData: ICategory;
 };
 
-export const CategoryDelete: FC<CategoryDeleteProps> = ({categoryData, setCategoryScreen}) => {
+export const CategoryDelete: FC<CategoryDeleteProps> = ({categoryData}) => {
   const [deleteCategory, { isLoading }] = useDeleteCategoryMutation();
+  const handleChangeScreen = useChangeScreen();
 
   const handleCategoryDelete = async (): Promise<void> => {
     try {
       await deleteCategory(categoryData._id).unwrap();
       toast.info(`"${categoryData.title}" category deleted`);
-      setCategoryScreen(CATEGORIES_SCREEN.TABLE);
+      handleChangeScreen(SCREEN["CATEGORIES.TABLE"]);
     } catch (e) {
       requestErrorPopUp(e as IErrorAPI);
     }
@@ -35,7 +36,7 @@ export const CategoryDelete: FC<CategoryDeleteProps> = ({categoryData, setCatego
             Delete
           </ButtonMain>
           <ButtonMain
-            onClick={() => setCategoryScreen(CATEGORIES_SCREEN.EDIT)}
+            onClick={() => handleChangeScreen(SCREEN["CATEGORIES.EDIT"])}
           >
             Back
           </ButtonMain>

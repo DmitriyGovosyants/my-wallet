@@ -1,27 +1,28 @@
 import { FC } from "react";
-import { ACCOUNTS_SCREEN } from "constants/accountsScreen";
 import { ButtonMain } from "components/ui";
 import { getIconSrc, getCurrencyLabel } from "utils";
 import { IAccount, useGetAccountsQuery } from "redux/accounts/accountsApi";
 import { Table, RowGrid, TitleData, RowData, Text, ButtonBox, AccountInterfaceBtn, DeleteIcon, EditIcon } from "./AccountsTable.styled";
 import { accountsIcons } from "data/accountsIcons";
+import { SCREEN } from "constants/screenStatus";
+import { useChangeScreen } from "hooks/useChangeScreen";
 
 type AccountsTableProps = {
-  setAccountScreen: (value: string) => void;
   setAccountData: (value: IAccount | ((prevState: IAccount) => IAccount)) => void;
 }
 
-export const AccountsTable: FC<AccountsTableProps> = ({ setAccountScreen, setAccountData }) => {
+export const AccountsTable: FC<AccountsTableProps> = ({ setAccountData }) => {
   const { data: userAccounts } = useGetAccountsQuery();
+  const handleChangeScreen = useChangeScreen();
 
   const handleAccountUpdate = (account: IAccount) => {
     setAccountData((prev) => ({...prev, ...account}));
-    setAccountScreen(ACCOUNTS_SCREEN.UPDATE);
+    handleChangeScreen(SCREEN["ACCOUNTS.UPDATE"]);
   };
 
   const handleAccountDelete = (account: IAccount) => {
     setAccountData((prev) => ({...prev, ...account}));
-    setAccountScreen(ACCOUNTS_SCREEN.DELETE);
+    handleChangeScreen(SCREEN["ACCOUNTS.DELETE"]);
   };
 
   const handleTotalBalance = (startBalance: number, transactons: string[] | []): string => {
@@ -86,7 +87,7 @@ export const AccountsTable: FC<AccountsTableProps> = ({ setAccountScreen, setAcc
         )}
       </Table>
       <ButtonBox>
-        <ButtonMain onClick={() => setAccountScreen(ACCOUNTS_SCREEN.CREATE)}>Add account</ButtonMain>
+        <ButtonMain onClick={() => handleChangeScreen(SCREEN["ACCOUNTS.CREATE"])}>Add account</ButtonMain>
       </ButtonBox>
     </>
   )

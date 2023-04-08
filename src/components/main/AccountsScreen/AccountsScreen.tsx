@@ -1,7 +1,9 @@
 import { FC, useState } from "react";
-import { ACCOUNTS_SCREEN } from "constants/accountsScreen";
-import { AccountsTable, AccountCreate, AccountDelete, AccountUpdate } from "components";
+import { AccountsTable, AccountDelete } from "components";
 import { IAccount } from "redux/accounts/accountsApi";
+import { useAppSelector } from "redux/reduxHooks";
+import { SCREEN } from "constants/screenStatus";
+import { FormAccount } from "components/ui";
 
 const initialAccount = {
   currency: '',
@@ -14,25 +16,23 @@ const initialAccount = {
 }
 
 export const AccountsScreen: FC = () => {
-  const [accountScreen, setAccountScreen] = useState<string>(ACCOUNTS_SCREEN.TABLE);
+  const screenStatus = useAppSelector(({ screenStatus }) => screenStatus);
   const [accountData, setAccountData] = useState<IAccount>(initialAccount);
 
   return (
     <>
-      {accountScreen === ACCOUNTS_SCREEN.TABLE && <AccountsTable
-        setAccountScreen={setAccountScreen}
+      {screenStatus === SCREEN["ACCOUNTS.TABLE"] && <AccountsTable
         setAccountData={setAccountData}
       />}
-      {accountScreen === ACCOUNTS_SCREEN.CREATE && <AccountCreate
-        setAccountScreen={() => setAccountScreen(ACCOUNTS_SCREEN.TABLE)}
+      {screenStatus === SCREEN["ACCOUNTS.CREATE"] && <FormAccount
+        title={'Create new account'}
       />}
-      {accountScreen === ACCOUNTS_SCREEN.UPDATE && <AccountUpdate
+      {screenStatus === SCREEN["ACCOUNTS.UPDATE"] && <FormAccount
+        title={`Update "${accountData.title}"`}
         accountData={accountData}
-        setAccountScreen={() => setAccountScreen(ACCOUNTS_SCREEN.TABLE)}
       />}
-      {accountScreen === ACCOUNTS_SCREEN.DELETE && <AccountDelete
+      {screenStatus === SCREEN["ACCOUNTS.DELETE"] && <AccountDelete
         accountData={accountData}
-        setAccountScreen={() => setAccountScreen(ACCOUNTS_SCREEN.TABLE)}
       />}
     </>
   )

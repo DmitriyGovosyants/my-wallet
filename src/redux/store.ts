@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { AnyAction, combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import {
   persistStore,
@@ -26,7 +26,7 @@ const persistConfig = {
   whitelist: ['token'],
 };
 
-const reducers = combineReducers({
+const appReducers = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [settingsApi.reducerPath]: settingsApi.reducer,
   [accountsApi.reducerPath]: accountsApi.reducer,
@@ -34,10 +34,18 @@ const reducers = combineReducers({
   [transactionsApi.reducerPath]: transactionsApi.reducer,
   auth: persistReducer(persistConfig, authSlice.reducer),
   screenStatus: screenStatusSlice.reducer,
-})
+});
+
+const rootReducer = (state: any, action: AnyAction) => {
+  if (action.type === 'USER_LOGOUT') {
+    return appReducers(undefined, action)
+  }
+
+  return appReducers(state, action)
+}
 
 export const store = configureStore({
-  reducer: reducers,
+  reducer: rootReducer,
   devTools: process.env.NODE_ENV === 'development',
   middleware: getDefaultMiddleware => [
     ...getDefaultMiddleware({

@@ -3,26 +3,27 @@ import { ButtonIcon, TitleMain, WrapperInfo } from "components/ui";
 import { getIconSrc } from "utils";
 import { categoryTypes, ICategory, useGetCategoriesQuery } from "redux/categoriesApi/categoriesApi";
 import { TitleWrapper, CategoryIcon, IconItem, IconList } from "./CategoriesTable.styled";
-import { CATEGORIES_SCREEN } from "constants/categoriesScreen";
 import { categoriesIcons } from "data/categoriesIcons";
 import { MdAddCircleOutline } from "react-icons/md";
+import { useChangeScreen } from "hooks/useChangeScreen";
+import { SCREEN } from "constants/screenStatus";
 
 type CategoriesTableProps = {
-  setCategoryScreen: (value: string) => void;
   setCategoryData: (value: ICategory | ((prevState: ICategory) => ICategory)) => void;
 };
 
-export const CategoriesTable: FC<CategoriesTableProps> = ({ setCategoryScreen, setCategoryData }) => {
+export const CategoriesTable: FC<CategoriesTableProps> = ({ setCategoryData }) => {
   const { data: userCategories } = useGetCategoriesQuery();
+  const handleChangeScreen = useChangeScreen();
 
   const handleAddCategory = (type: categoryTypes) => {
     setCategoryData(prev => ({ ...prev, type }));
-    setCategoryScreen(CATEGORIES_SCREEN.CREATE);
+    handleChangeScreen(SCREEN["CATEGORIES.CREATE"]);
   };
 
   const handleEditCategory = (category: ICategory) => {
     setCategoryData(prev => ({ ...prev, ...category }));
-    setCategoryScreen(CATEGORIES_SCREEN.EDIT);
+    handleChangeScreen(SCREEN["CATEGORIES.EDIT"]);
   };
 
   return (

@@ -3,20 +3,22 @@ import { toast } from "react-toastify";
 import { IAccount, useDeleteAccountMutation } from "redux/accounts/accountsApi";
 import { IErrorAPI, requestErrorPopUp } from "utils";
 import { ButtonMain, TitleMain, SpinnerFixed, WrapperInfo, WrapperButtons } from "components/ui";
+import { useChangeScreen } from "hooks/useChangeScreen";
+import { SCREEN } from "constants/screenStatus";
 
 type AccountDeleteProps = {
   accountData: IAccount;
-  setAccountScreen: () => void;
 }
 
-export const AccountDelete: FC<AccountDeleteProps> = ({ accountData, setAccountScreen }) => {
+export const AccountDelete: FC<AccountDeleteProps> = ({ accountData }) => {
   const [deleteAccount, { isLoading }] = useDeleteAccountMutation();
+  const handleChangeScreen = useChangeScreen();
 
   const handleAccountDelete = async (): Promise<void> => {
     try {
       await deleteAccount(accountData._id).unwrap();
       toast.info(`"${accountData.title}" account deleted`);
-      setAccountScreen();
+      handleChangeScreen(SCREEN["ACCOUNTS.TABLE"]);
     } catch (e) {
       requestErrorPopUp(e as IErrorAPI);
     }
@@ -34,7 +36,7 @@ export const AccountDelete: FC<AccountDeleteProps> = ({ accountData, setAccountS
             Delete
           </ButtonMain>
           <ButtonMain
-            onClick={setAccountScreen}
+            onClick={() => handleChangeScreen(SCREEN["ACCOUNTS.TABLE"])}
           >
             Back
           </ButtonMain>
