@@ -18,7 +18,7 @@ export const ArrowBox = styled.div<ArrowBoxProps>`
 
 export const ArrowButton = styled.button`
   width: 100%;
-  height: 50%;
+  height: 100%;
 `
 
 export const LeftArrow = styled(MdOutlineArrowBackIos)`

@@ -13,7 +13,7 @@ import { useGetCategoriesQuery } from "redux/categoriesApi/categoriesApi";
 import { useGetAccountsQuery } from "redux/accounts/accountsApi";
 import { useChangeScreen } from "hooks/useChangeScreen";
 import { SCREEN } from "constants/screenStatus";
-
+import { useAppSelector } from "redux/reduxHooks";
 
 type FormTransactionProps = {
   transactionData: ITransaction;
@@ -28,6 +28,9 @@ export const FormTransaction: FC<FormTransactionProps> = ({ formTypeEdit, transa
   const [updateTransaction, { isLoading: isUpdatingTransaction }] = useUpdateTransactionMutation();
   const { data: userCategories, isLoading: isLoadingCategories } = useGetCategoriesQuery();
   const { data: userAccounts, isLoading: isLoadingAccounts } = useGetAccountsQuery();
+  const transactionType = useAppSelector(({ transactionType }) => transactionType);
+  
+  const userCategoriesByType = userCategories?.filter(({ type }) => type === transactionType);
 
   const createDefaultValues = {
     account_id: '',
@@ -48,25 +51,26 @@ export const FormTransaction: FC<FormTransactionProps> = ({ formTypeEdit, transa
   });
 
   const onSubmit = async (data: FormData): Promise<void> => {
-    console.log(data);
-    // try {
-    //   if (!formTypeEdit) {
-    //     await addTransaction({ type: transactionData.type, ...data }).unwrap();
-    //     toast.info(`"${data.title}" category created`);
-    //   }
-    //   if (formTypeEdit) {
-    //     await updateTransaction({ categoryID: transactionData._id, body: { type: transactionData.type, ...data } }).unwrap();
-    //     toast.info(`"${data.title}" category updated`);
-    //   }
-    //   setTransactionScreen(TRANSACTIONS_SCREEN.TABLE);
-    // } catch (e) {
-    //   requestErrorPopUp(e as IErrorAPI);
-    // }
+    console.log(typeof data.comment)
+    console.log({...data, type: transactionType});
+    try {
+      // if (!formTypeEdit) {
+        await addTransaction({...data, type: transactionType}).unwrap();
+      //   toast.info(`"${data.title}" category created`);
+      // }
+      // if (formTypeEdit) {
+      //   await updateTransaction({ categoryID: transactionData._id, body: { type: transactionData.type, ...data } }).unwrap();
+      //   toast.info(`"${data.title}" category updated`);
+      // }
+      handleChangeScreen(SCREEN["TRANSACTION.TABLE"])
+    } catch (e) {
+      requestErrorPopUp(e as IErrorAPI);
+    }
   };
 
   return (
     <WrapperInfo>
-      <TitleMain fz="30px">{`New ${transactionData.type}`}</TitleMain>
+      <TitleMain fz="30px">{`New ${transactionType}`}</TitleMain>
       <Form
         onSubmit={handleSubmit(onSubmit)}
         noValidate
@@ -125,7 +129,7 @@ export const FormTransaction: FC<FormTransactionProps> = ({ formTypeEdit, transa
           </ButtonMain>
         </WrapperButtons>
         <InputRadioCategories
-          categoriesGroup={userCategories || []}
+          categoriesGroup={userCategoriesByType || []}
           name={"category_id"}
           label={"Choose category"}
           control={control}

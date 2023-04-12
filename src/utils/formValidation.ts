@@ -84,8 +84,9 @@ const account_id = Yup.string()
   .required('Account is required');
 
 const comment = Yup.string()
+  .ensure()
   .trim()
-  .max(32);
+  .max(32)
 
 const category_id = Yup.string()
   .required('Category is required');

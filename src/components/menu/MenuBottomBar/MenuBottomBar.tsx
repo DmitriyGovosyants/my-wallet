@@ -2,22 +2,18 @@ import { FC } from "react";
 import { Grid, InfoBoard, InfoData, AddButton, RevenueIcon, ExpenseIcon } from "./MenuBottomBar.styled";
 import { useChangeScreen } from "hooks/useChangeScreen";
 import { SCREEN } from "constants/screenStatus";
+import { transactionTypes } from "redux/transactionsApi/transactionsApi";
+import { useAppDispatch } from "redux/reduxHooks";
+import { transactionType } from "redux/transactionType/transactionTypeSlice"; 
 
-type MenuBottomBarProps = {
-  setTransactionCreateType: (value: string) => void;
-}
-
-export const MenuBottomBar: FC<MenuBottomBarProps> = ({setTransactionCreateType}) => {
+export const MenuBottomBar: FC = () => {
   const handleChangeScreen = useChangeScreen();
+  const dispatch = useAppDispatch();
 
-  const handleAddRevenue = () => {
-    setTransactionCreateType('2')
+  const handleAddTransaction = (type: transactionTypes) => {
+    dispatch(transactionType(type));
     handleChangeScreen(SCREEN["TRANSACTION.CREATE"]);
-  }
-
-  const handleAddExpense = () => {
-    console.log('addExpense');
-  }
+  };
 
   return (
     <Grid>
@@ -26,12 +22,12 @@ export const MenuBottomBar: FC<MenuBottomBarProps> = ({setTransactionCreateType}
         <InfoData>10 000</InfoData>
       </InfoBoard>
       <InfoBoard>
-        <AddButton onClick={handleAddRevenue}>
+        <AddButton onClick={() => handleAddTransaction(transactionTypes.Revenue)}>
           <RevenueIcon />
         </AddButton>
       </InfoBoard>
       <InfoBoard>
-        <AddButton onClick={handleAddExpense}>
+        <AddButton onClick={() => handleAddTransaction(transactionTypes.Expense)}>
           <ExpenseIcon />
         </AddButton>
       </InfoBoard>

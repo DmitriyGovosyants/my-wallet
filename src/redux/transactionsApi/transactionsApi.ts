@@ -8,9 +8,10 @@ export enum transactionTypes {
 export interface ITransaction {
   type: transactionTypes;
   category_id: string;
+  account_id: string;
   date: string;
   value: number;
-  comment: string;
+  comment: string | undefined;
   _id: string;
 };
 

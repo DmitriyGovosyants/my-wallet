@@ -8,6 +8,7 @@ import { FormTransaction } from "components/ui";
 const initialTransaction = {
   type: transactionTypes.Revenue,
   category_id: "",
+  account_id: "",
   date: "",
   value: 0,
   comment: "",
@@ -17,7 +18,7 @@ const initialTransaction = {
 export const TransactionsScreen: FC = () => {
   const screenStatus = useAppSelector(({ screenStatus }) => screenStatus);
   const [transactionData, setTransactionData] = useState<ITransaction>(initialTransaction);
-  
+
   return (
     <>
       {screenStatus === SCREEN["TRANSACTION.TABLE"] &&

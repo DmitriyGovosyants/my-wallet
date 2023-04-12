@@ -15,6 +15,7 @@ export * from "./main/InfoScreen/InfoScreen";
 
 export * from "./main/TransactionsScreen/TransactionsScreen";
 export * from "./main/TransactionsTable/TransactionsTable";
+export * from "./main/TransactionsCategory/TransactionsCategory";
 
 export * from "./main/AccountsScreen/AccountsScreen";
 export * from "./main/AccountsTable/AccountsTable";

@@ -15,9 +15,11 @@ import { authApi } from './auth/authApi';
 import { authSlice } from './auth/authSlice';
 import { accountsApi } from './accounts/accountsApi';
 import { screenStatusSlice } from './screenStatus/screenStatusSlice';
+import { transactionTypeSlice } from './transactionType/transactionTypeSlice';
 import { settingsApi } from './settingsApi/settingsApi';
 import { categoriesApi } from './categoriesApi/categoriesApi';
 import { transactionsApi } from './transactionsApi/transactionsApi';
+import { chosesDateSlice } from './chosesDate/chosesDateSlice';
 
 const persistConfig = {
   key: 'auth',
@@ -34,6 +36,8 @@ const appReducers = combineReducers({
   [transactionsApi.reducerPath]: transactionsApi.reducer,
   auth: persistReducer(persistConfig, authSlice.reducer),
   screenStatus: screenStatusSlice.reducer,
+  transactionType: transactionTypeSlice.reducer,
+  chosesDate: chosesDateSlice.reducer,
 });
 
 const rootReducer = (state: any, action: AnyAction) => {

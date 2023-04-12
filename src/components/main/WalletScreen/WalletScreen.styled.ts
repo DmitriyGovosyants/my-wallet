@@ -13,7 +13,7 @@ export const CenterColumnGrid = styled.div`
 `
 
 export const CenterGrid = styled.div`
-  display: flex;
+  /* display: flex; */
   padding: 12px;
 
   background-color: ${p => p.theme.colors.bgSecond};

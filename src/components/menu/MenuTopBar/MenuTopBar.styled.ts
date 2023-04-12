@@ -16,3 +16,9 @@ export const StatusText = styled.p`
   text-transform: uppercase;
   color: white;
 `
+
+export const TopBarBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`

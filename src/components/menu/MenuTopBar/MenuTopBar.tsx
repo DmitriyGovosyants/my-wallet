@@ -1,10 +1,13 @@
 import { FC } from "react";
 import { useAppSelector } from "redux/reduxHooks";
-import { Background, StatusText } from "./MenuTopBar.styled";
+import { Background, StatusText, TopBarBox } from "./MenuTopBar.styled";
 import { SCREEN } from "constants/screenStatus";
+import { getMonthName } from "utils";
+import { NavArrow } from "components/ui";
 
 export const MenuTopBar: FC = () => {
   const screenStatus = useAppSelector(({ screenStatus }) => screenStatus);
+  const {year, month} = useAppSelector(({ chosesDate }) => chosesDate);
 
   return (
     <Background>
@@ -14,9 +17,11 @@ export const MenuTopBar: FC = () => {
         </StatusText>
       }
       {screenStatus === SCREEN["TRANSACTION.TABLE"] &&
-        <>
-          <p style={{textAlign: 'center'}}>February 2023</p>
-        </>
+        <TopBarBox>
+          <NavArrow direction={'left'} />
+          <p style={{ textAlign: 'center' }}>{getMonthName(month)} {year}</p>
+          <NavArrow direction={'right'} />
+        </TopBarBox>
       }
     </Background>
   )

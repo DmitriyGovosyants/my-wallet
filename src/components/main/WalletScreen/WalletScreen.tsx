@@ -1,16 +1,15 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useGetSettingsQuery } from "redux/settingsApi/settingsApi";
 import { useGetAccountsQuery } from "redux/accounts/accountsApi";
 import { useGetCategoriesQuery } from "redux/categoriesApi/categoriesApi";
 import { MainCurrencySelect, InfoScreen, MenuBottomBar, MenuLeftBar, MenuRightBar, MenuTopBar } from "components";
-import { FormAccount, NavArrow, SpinnerFixed } from "components/ui";
+import { FormAccount, SpinnerFixed } from "components/ui";
 import { MainGrid, CenterColumnGrid, CenterGrid, Wrapper } from "./WalletScreen.styled";
 
 export const WalletScreen: FC = () => {
   const { data: userSettings, isLoading: settingsIsLoading } = useGetSettingsQuery();
   const { data: userAccounts } = useGetAccountsQuery();
-  const { data: userCategories } = useGetCategoriesQuery();
-  const [transactionCreateType, setTransactionCreateType] = useState('');
+  // const { data: userCategories } = useGetCategoriesQuery();
 
   const isFirstLoadMainCurrency: boolean = userSettings?.mainCurrency === '';
   const isFirstLoadAccountCreate: boolean = userAccounts?.length === 0;
@@ -35,11 +34,9 @@ export const WalletScreen: FC = () => {
         <CenterColumnGrid>
           <MenuTopBar />
           <CenterGrid>
-            <NavArrow direction={'left'} />
             <InfoScreen />
-            <NavArrow direction={'right'}/>
           </CenterGrid>
-          <MenuBottomBar setTransactionCreateType={setTransactionCreateType} />
+          <MenuBottomBar />
         </CenterColumnGrid>
         <MenuRightBar />
       </MainGrid>

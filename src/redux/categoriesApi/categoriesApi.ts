@@ -1,12 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-export enum categoryTypes {
-  Expense = "expense",
-  Revenue = "revenue",
-};
+import { transactionTypes } from 'redux/transactionsApi/transactionsApi';
 
 export interface ICategory {
-  type: categoryTypes;
+  type: transactionTypes;
   title: string;
   icon: string;
   _id: string;
