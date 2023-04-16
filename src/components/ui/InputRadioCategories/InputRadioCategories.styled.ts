@@ -2,13 +2,15 @@ import styled from "@emotion/styled";
 import { RadioGroup } from "@mui/material";
 
 export const RadioGroupStyled = styled(RadioGroup)`
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  /* gap: 10px; */
   
   & label {
-    /* margin: 0;
-    border: 2px solid rgb(21, 255, 192);
+    margin: 0;
+    width: 20%;
+    /* border: 2px solid rgb(21, 255, 192);
     border-radius: 10px;
     overflow: hidden;
     transition: border ${p => p.theme.animation.cubicBezier};

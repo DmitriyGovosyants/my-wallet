@@ -9,6 +9,7 @@ import { ITransaction, transactionTypes, useGetTransactionsQuery } from "redux/t
 import { TransactionsTableList, TransactionsTableItem, TitleWrapper } from "./TransactionsTable.styled";
 import { ICategory, useGetCategoriesQuery } from "redux/categoriesApi/categoriesApi";
 import { TransactionsCategory } from "components";
+import { getTransactionsByDate } from "utils";
 
 type TransactionsTableProps = {
   setTransactionData: (value: ITransaction | ((prevState: ITransaction) => ITransaction)) => void;
@@ -37,25 +38,23 @@ export const TransactionsTable: FC<TransactionsTableProps> = ({setTransactionDat
 
   const [transactionsByCategories, setTransactionsByCategories] = useState<transactionsSortedType>();
   const [expanded, setExpanded] = useState<string | false>(false);
+
+  // console.log(userTransactions)
   
   useEffect(() => {
     if (userTransactions && userCategories) {
-      const transactionsByDate = userTransactions.filter(({ date }) => {
-        const transactionYear = Number(date.split('-')[0]);
-        const transactionMonth = Number(date.split('-')[1]);
+      const transactionsByDate = getTransactionsByDate(year, month, userTransactions);
 
-        const isChosesYear = transactionYear === year;
-        const isChosesMonth = transactionMonth === month;
-
-        return isChosesYear && isChosesMonth;
-      });
+      const transactionsSortedByDate = transactionsByDate
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .sort((a, b) => Number(b.date.split('-')[2]) - Number(a.date.split('-')[2]));
 
       const categoriesByType = userCategories.reduce((acc: categoriesType, obj: ICategory) => {
         acc[obj.type].push(obj);
         return acc;
       }, { revenue: [], expense: [] });
 
-      const categoriesTransactionsAdded = transactionsByDate.reduce((acc: transactionsSortedType, obj: ITransaction) => {
+      const categoriesTransactionsAdded = transactionsSortedByDate.reduce((acc: transactionsSortedType, obj: ITransaction) => {
         const categoryIndex = acc[obj.type].findIndex((category) => category._id === obj.category_id);
 
         acc[obj.type][categoryIndex].transactions = acc[obj.type][categoryIndex].transactions || [];
@@ -74,31 +73,14 @@ export const TransactionsTable: FC<TransactionsTableProps> = ({setTransactionDat
     handleChangeScreen(SCREEN["TRANSACTION.CREATE"]);
   };
 
-  // const handleExpandCategory = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean): void => {
-  //   setExpanded(newExpanded ? panel : false);
-  // };
-
-  console.log(transactionsByCategories)
+  // console.log(transactionsByCategories)
 
   return (
     <TransactionsTableList>
+
       <TransactionsTableItem>
         <TitleWrapper>
-          <TitleMain fz="30px" mb='0px'>Revenues transaction</TitleMain>
-          <ButtonIcon onClick={() => handleAddTransaction(transactionTypes.Revenue)} type="button">
-            <MdAddCircleOutline size={40} color={'green'} />
-          </ButtonIcon>
-        </TitleWrapper>
-        {transactionsByCategories && <TransactionsCategory
-          transactionsByCategories={transactionsByCategories}
-          expanded={expanded}
-          setExpanded={setExpanded}
-          type={transactionTypes.Revenue}
-        />}
-      </TransactionsTableItem>
-      <TransactionsTableItem>
-        <TitleWrapper>
-          <TitleMain fz="30px" mb='0px'>Expenses transaction</TitleMain>
+          <TitleMain fz="30px" mb='0px'>Expenses</TitleMain>
           <ButtonIcon onClick={() => handleAddTransaction(transactionTypes.Expense)} type="button">
             <MdAddCircleOutline size={40} color={'green'} />
           </ButtonIcon>
@@ -110,6 +92,22 @@ export const TransactionsTable: FC<TransactionsTableProps> = ({setTransactionDat
           type={transactionTypes.Expense}
         />}
       </TransactionsTableItem>
+
+      <TransactionsTableItem>
+        <TitleWrapper>
+          <TitleMain fz="30px" mb='0px'>Revenues</TitleMain>
+          <ButtonIcon onClick={() => handleAddTransaction(transactionTypes.Revenue)} type="button">
+            <MdAddCircleOutline size={40} color={'green'} />
+          </ButtonIcon>
+        </TitleWrapper>
+        {transactionsByCategories && <TransactionsCategory
+          transactionsByCategories={transactionsByCategories}
+          expanded={expanded}
+          setExpanded={setExpanded}
+          type={transactionTypes.Revenue}
+        />}
+      </TransactionsTableItem>
+      
     </TransactionsTableList>
   )
 }

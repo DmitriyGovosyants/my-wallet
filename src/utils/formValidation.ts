@@ -4,7 +4,8 @@ const emailRegEx: RegExp = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{1,
 const passwordRegEx: RegExp =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{7,})/;
 const nameRegEx: RegExp = /^[a-zA-Zа-яА-ЯёЁіІїЇєЄ\s]*$/;
-const patternTwoDigisAfterComma: RegExp = /^\d+(\.\d{0,2})?$/;
+const patternTransactionValue: RegExp = /^(\d+(?:[.,]\d{1,2})?)$/;
+const patternBalanceValue: RegExp = /^-?(\d+(?:[.,]\d{1,2})?)$/;
 
 const isValidDomain = (email: string): boolean => {
   const validDomenName: string[] = ['com', 'net', 'org', 'ua', 'ru', 'gov', 'ca'];
@@ -58,17 +59,37 @@ const title = Yup.string()
   .min(2)
   .max(16);
 
-const mainNumber = Yup.number()
+const startBalance = Yup.number()
   .required('Start balance is required')
-  .min(-1000000000000)
-  .max(1000000000000)
+  .min(-999999999999)
+  .max(999999999999)
   .test(
     "is-decimal",
     "The amount should be a decimal with maximum two digits after comma",
-    (val: any) => {
+    (val: number) => {
       if (val !== undefined) {
-        return patternTwoDigisAfterComma.test(val);
+        return patternBalanceValue.test(val.toString());
       }
+      return true;
+    }
+  )
+  .typeError('You must specify a number');
+
+const transactionNumber = Yup.number()
+  .required('Value is required')
+  .min(-999999999999)
+  .max(999999999999)
+  .test(
+    "is-decimal",
+    "The amount should be a positive decimal with maximum two digits after comma",
+    (val: number) => {
+      if (val === 0) {
+        return false;
+      }
+      if (val !== undefined) {
+        return patternTransactionValue.test(val.toString());
+      }
+      
       return true;
     }
   )
@@ -110,7 +131,7 @@ export const currencySchema = Yup.object({
 export const accountSchema = Yup.object({
   title,
   currency,
-  startBalance: mainNumber,
+  startBalance,
   startDate,
   icon,
 });
@@ -123,7 +144,7 @@ export const categorySchema = Yup.object({
 export const transactionSchema = Yup.object({
   account_id,
   date: startDate,
-  value: mainNumber,
+  value: transactionNumber,
   comment,
   category_id,
 });

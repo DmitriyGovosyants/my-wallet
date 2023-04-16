@@ -13,11 +13,12 @@ export interface ITransaction {
   value: number;
   comment: string | undefined;
   _id: string;
+  createdAt: string;
 };
 
 export interface ITransactionUpdate {
   transactionID: string;
-  body: Omit<ITransaction, "_id">;
+  body: Omit<ITransaction, "_id" | "createdAt">;
 }
 
 export const transactionsApi = createApi({
@@ -42,7 +43,7 @@ export const transactionsApi = createApi({
       transformResponse:
         (response: {  transactions: ITransaction[] }) => response.transactions,
     }),
-    addTransaction: builder.mutation<any, Omit<ITransaction, "_id">>({
+    addTransaction: builder.mutation<any, Omit<ITransaction, "_id" | "createdAt">>({
       query: transaction => ({
         url: '',
         method: 'POST',

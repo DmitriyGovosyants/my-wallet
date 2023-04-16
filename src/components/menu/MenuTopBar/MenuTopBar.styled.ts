@@ -8,7 +8,6 @@ export const StatusText = styled.p`
   display: flex;
   justify-content: center;
   align-items: center;
-
   height: 100%;
 
   font-size: 20px;
@@ -21,4 +20,5 @@ export const TopBarBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 100%;
 `

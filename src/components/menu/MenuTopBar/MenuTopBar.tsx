@@ -19,7 +19,7 @@ export const MenuTopBar: FC = () => {
       {screenStatus === SCREEN["TRANSACTION.TABLE"] &&
         <TopBarBox>
           <NavArrow direction={'left'} />
-          <p style={{ textAlign: 'center' }}>{getMonthName(month)} {year}</p>
+          <StatusText>{getMonthName(month)} {year}</StatusText>
           <NavArrow direction={'right'} />
         </TopBarBox>
       }

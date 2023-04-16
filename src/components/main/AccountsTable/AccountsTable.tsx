@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { ButtonMain } from "components/ui";
-import { getIconSrc, getCurrencyLabel } from "utils";
+import { getIconSrc, getCurrencyLabel, getNumberFormat } from "utils";
 import { IAccount, useGetAccountsQuery } from "redux/accounts/accountsApi";
-import { Table, RowGrid, TitleData, RowData, Text, ButtonBox, AccountInterfaceBtn, DeleteIcon, EditIcon } from "./AccountsTable.styled";
+import { Wrapper, Table, TableHead, TableBody, THead, TRow, TData, ButtonBox, AccountInterfaceBtn, DeleteIcon, EditIcon } from "./AccountsTable.styled";
 import { accountsIcons } from "data/accountsIcons";
 import { SCREEN } from "constants/screenStatus";
 import { useChangeScreen } from "hooks/useChangeScreen";
@@ -40,55 +40,48 @@ export const AccountsTable: FC<AccountsTableProps> = ({ setAccountData }) => {
     // }, startBalance)
     // return totalBalance.toFixed(2);
   };
-
+  
   return (
-    <>
+    <Wrapper>
       <Table>
-        <RowGrid>
-          <TitleData>*</TitleData>
-          <TitleData>title</TitleData>
-          <TitleData>total</TitleData>
-          <TitleData>currency</TitleData>
-          <TitleData></TitleData>
-          <TitleData></TitleData>
-        </RowGrid>
-        {userAccounts && (
-          userAccounts.map(account => 
-          { 
+        <TableHead>
+          <TRow>
+            <THead>icon</THead>
+            <THead>curr</THead>
+            <THead>title</THead>
+            <THead>total</THead>
+            <THead>edit</THead>
+            <THead>del</THead>
+          </TRow>
+        </TableHead>
+        <TableBody>
+          {userAccounts && (userAccounts.map(account => { 
             const { _id, title, currency, icon, startBalance, transactions } = account;
-            return (
-              <RowGrid key={_id}>
-                <RowData>
-                  <img src={getIconSrc(icon, accountsIcons)} alt={icon} />
-                </RowData>
-                <RowData>
-                  <Text>{title}</Text>
-                </RowData>
-                <RowData>
-                  <Text>{handleTotalBalance(startBalance, transactions)}</Text>
-                </RowData>
-                <RowData>
-                  <Text>{currency} - {getCurrencyLabel(currency)}</Text>
-                </RowData>
-                <RowData>
-                  <AccountInterfaceBtn onClick={() => handleAccountUpdate(account)}>
-                    <EditIcon />
-                  </AccountInterfaceBtn>
-                </RowData>
-                <RowData>
-                  <AccountInterfaceBtn onClick={() => handleAccountDelete(account)}>
-                    <DeleteIcon />
-                  </AccountInterfaceBtn>
-                </RowData>
-              </RowGrid>
+              return (
+                <TRow key={_id}>
+                  <TData><img src={getIconSrc(icon, accountsIcons)} alt={icon} /></TData>
+                  <TData>{currency} {getCurrencyLabel(currency)}</TData>
+                  <TData pos={'start'} pad={'30px'}>{title}</TData>
+                  <TData pos={'end'} pad={'30px'}>{getNumberFormat (handleTotalBalance(startBalance, transactions))}</TData>
+                  <TData>
+                    <AccountInterfaceBtn onClick={() => handleAccountUpdate(account)}>
+                      <EditIcon />
+                    </AccountInterfaceBtn>
+                  </TData>
+                  <TData>
+                    <AccountInterfaceBtn onClick={() => handleAccountDelete(account)}>
+                      <DeleteIcon />
+                    </AccountInterfaceBtn>
+                  </TData>
+                </TRow>
               )
-            }
-          )
-        )}
+            })
+          )}
+        </TableBody>
       </Table>
       <ButtonBox>
-        <ButtonMain onClick={() => handleChangeScreen(SCREEN["ACCOUNTS.CREATE"])}>Add account</ButtonMain>
+        <ButtonMain onClick={() => handleChangeScreen(SCREEN["ACCOUNTS.CREATE"])}>Add new account</ButtonMain>
       </ButtonBox>
-    </>
+    </Wrapper>
   )
 }

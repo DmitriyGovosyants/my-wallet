@@ -6,7 +6,7 @@ export const InfoScreenBox = styled.div`
   
   width: 100%;
   height: 100%;
-  padding: 20px;
+  /* padding: 20px; */
 
   ::-webkit-scrollbar{
     display: none;

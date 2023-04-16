@@ -1,30 +1,55 @@
-import { FC } from "react";
+import { FC, useState, useEffect } from "react";
 import { Grid, InfoBoard, InfoData, AddButton, RevenueIcon, ExpenseIcon } from "./MenuBottomBar.styled";
 import { useChangeScreen } from "hooks/useChangeScreen";
 import { SCREEN } from "constants/screenStatus";
-import { transactionTypes } from "redux/transactionsApi/transactionsApi";
-import { useAppDispatch } from "redux/reduxHooks";
-import { transactionType } from "redux/transactionType/transactionTypeSlice"; 
+import { transactionTypes, useGetTransactionsQuery } from "redux/transactionsApi/transactionsApi";
+import { useAppDispatch, useAppSelector } from "redux/reduxHooks";
+import { transactionType } from "redux/transactionType/transactionTypeSlice";
+import { getNumberFormat, getTransactionsByDate } from "utils";
+
+type transactionsSummType = {
+  expense: number;
+  revenue: number;
+}
+
+const initialTransactionsSumm = {
+  expense: 0,
+  revenue: 0,
+}
 
 export const MenuBottomBar: FC = () => {
+  const { data: userTransactions } = useGetTransactionsQuery();
+  const [transactionsSumm, setTransactionsSumm] = useState<transactionsSummType>(initialTransactionsSumm);
+  const { year, month } = useAppSelector(({ chosesDate }) => chosesDate);
   const handleChangeScreen = useChangeScreen();
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (userTransactions) {
+      const transactionsByDate = getTransactionsByDate(year, month, userTransactions);
+      const transactionsBySumm = transactionsByDate.reduce((acc, el) => {
+        acc[el.type] += el.value;
+        return acc;
+      }, {expense: 0, revenue: 0});
+      setTransactionsSumm(transactionsBySumm);
+    }
+  },[month, userTransactions, year])
 
   const handleAddTransaction = (type: transactionTypes) => {
     dispatch(transactionType(type));
     handleChangeScreen(SCREEN["TRANSACTION.CREATE"]);
   };
 
+  const handleSummByType = (type: transactionTypes) => {
+    const summToString = transactionsSumm[type].toFixed(2).toString();
+    return getNumberFormat(summToString);
+  };
+
   return (
     <Grid>
       <InfoBoard>
-        <span>Revenues</span>
-        <InfoData>10 000</InfoData>
-      </InfoBoard>
-      <InfoBoard>
-        <AddButton onClick={() => handleAddTransaction(transactionTypes.Revenue)}>
-          <RevenueIcon />
-        </AddButton>
+        <span>Expenses</span>
+        <InfoData>{handleSummByType(transactionTypes.Expense)}</InfoData>
       </InfoBoard>
       <InfoBoard>
         <AddButton onClick={() => handleAddTransaction(transactionTypes.Expense)}>
@@ -32,8 +57,13 @@ export const MenuBottomBar: FC = () => {
         </AddButton>
       </InfoBoard>
       <InfoBoard>
-        <span>Expenses</span>
-        <InfoData>8 000</InfoData>
+        <AddButton onClick={() => handleAddTransaction(transactionTypes.Revenue)}>
+          <RevenueIcon />
+        </AddButton>
+      </InfoBoard>
+      <InfoBoard>
+        <span>Revenues</span>
+        <InfoData>{handleSummByType(transactionTypes.Revenue)}</InfoData>
       </InfoBoard>
     </Grid>
   )

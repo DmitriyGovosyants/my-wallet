@@ -13,6 +13,7 @@ const initialTransaction = {
   value: 0,
   comment: "",
   _id: "",
+  createdAt: "",
 };
 
 export const TransactionsScreen: FC = () => {
@@ -21,10 +22,12 @@ export const TransactionsScreen: FC = () => {
 
   return (
     <>
-      {screenStatus === SCREEN["TRANSACTION.TABLE"] &&
-        <TransactionsTable setTransactionData={setTransactionData} />}
-      {screenStatus === SCREEN["TRANSACTION.CREATE"] &&
-        <FormTransaction transactionData={transactionData} />}
+      {screenStatus === SCREEN["TRANSACTION.TABLE"] && <TransactionsTable
+        setTransactionData={setTransactionData}
+      />}
+      {screenStatus === SCREEN["TRANSACTION.CREATE"] && <FormTransaction
+        transactionData={transactionData}
+      />}
       {/* {categoryScreen === CATEGORIES_SCREEN.EDIT && <CategoryEdit
         categoryData={categoryData}
         setCategoryScreen={setCategoryScreen}

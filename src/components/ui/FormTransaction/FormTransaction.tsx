@@ -77,13 +77,6 @@ export const FormTransaction: FC<FormTransactionProps> = ({ formTypeEdit, transa
         autoComplete="off"
       >
         <InputGrid>
-          {/* <Input
-            name={"account_id"}
-            label={"Account"}
-            autoFocus={true}
-            control={control}
-            error={errors?.account_id?.message}
-          /> */}
           <InputSelectAccount
             name={"account_id"}
             label={"Account"}
@@ -94,6 +87,7 @@ export const FormTransaction: FC<FormTransactionProps> = ({ formTypeEdit, transa
           <Input
             name={"value"}
             label={"Value"}
+            autoFocus={true}
             type={"number"}
             control={control}
             error={errors?.value?.message}
@@ -110,7 +104,6 @@ export const FormTransaction: FC<FormTransactionProps> = ({ formTypeEdit, transa
           <Input
             name={"comment"}
             label={"Comment"}
-            autoFocus={true}
             control={control}
             error={errors?.comment?.message}
           />
