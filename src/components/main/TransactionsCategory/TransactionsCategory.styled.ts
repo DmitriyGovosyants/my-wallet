@@ -15,13 +15,14 @@ export const CategoryIcon = styled.img`
 `
 
 export const CategoryTitle = styled.span`
-  min-width: 200px;
+  min-width: 280px;
+
   font-size: 26px;
   font-weight: 700;
 `
 
 export const CategoryCount = styled.span`
-  width: 60px;
+  min-width: 60px;
   padding-left: 4px;
   padding-right: 4px;
 
@@ -34,7 +35,7 @@ export const CategoryCount = styled.span`
 `
 
 export const CategorySumm = styled.span`
-  min-width: 120px;
+  min-width: 220px;
   
   font-size: 24px;
   font-weight: 700;
@@ -45,7 +46,7 @@ export const TransactionRow = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  padding-left: 100px;
+  padding-left: 120px;
   padding-top: 10px;
   padding-bottom: 10px;
 
@@ -73,8 +74,8 @@ export const TransactionRow = styled.div`
 `
 
 export const TransactionValue = styled.span`
-  min-width: 120px;
-  margin-left: 204px;
+  min-width: 220px;
+  margin-left: 264px;
 
   text-align: end;
 `

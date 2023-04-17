@@ -38,8 +38,6 @@ export const TransactionsTable: FC<TransactionsTableProps> = ({setTransactionDat
 
   const [transactionsByCategories, setTransactionsByCategories] = useState<transactionsSortedType>();
   const [expanded, setExpanded] = useState<string | false>(false);
-
-  // console.log(userTransactions)
   
   useEffect(() => {
     if (userTransactions && userCategories) {
@@ -72,8 +70,6 @@ export const TransactionsTable: FC<TransactionsTableProps> = ({setTransactionDat
     dispatch(transactionType(type))
     handleChangeScreen(SCREEN["TRANSACTION.CREATE"]);
   };
-
-  // console.log(transactionsByCategories)
 
   return (
     <TransactionsTableList>

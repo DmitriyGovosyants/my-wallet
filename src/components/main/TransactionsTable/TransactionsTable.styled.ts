@@ -16,7 +16,6 @@ export const TransactionsTableItem = styled.li`
 export const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 10px;
   margin-bottom: 20px;
 `

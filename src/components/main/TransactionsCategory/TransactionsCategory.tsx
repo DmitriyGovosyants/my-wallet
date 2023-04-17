@@ -35,8 +35,8 @@ export const TransactionsCategory: FC<TransactionsCategoryProps> = ({ transactio
           <AccordionSummary aria-controls={`${_id}-content`} id={`${_id}-header`}>
             <CategoryRow key={_id}>
               <CategoryIcon src={getIconSrc(icon, categoriesIcons)} alt={icon} />
-              <CategoryTitle>{title}</CategoryTitle>
               <CategoryCount>{transactions.length}</CategoryCount>
+              <CategoryTitle>{title}</CategoryTitle>
               <CategorySumm>{handleCategorySumm(transactions)}</CategorySumm>
             </CategoryRow>
           </AccordionSummary>

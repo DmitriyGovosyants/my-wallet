@@ -1,26 +1,13 @@
 import styled from "@emotion/styled";
 
-// type IconListProps = {
-//   isHidden: boolean;
-// }
-
-export const TitleWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+export const Wrapper = styled.div`
+  width: 1000px;
+  margin: 0 auto;
 `
 
 export const IconList = styled.ul`
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
-  margin: 0 auto;
-  /* display: grid;
-  grid-template-columns: repeat(5, 1fr); */
-  /* gap: 10px; */
-  width: 1000px;
 
   &:not(:last-child) {
     margin-bottom: 50px;

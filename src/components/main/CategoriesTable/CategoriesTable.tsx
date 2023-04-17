@@ -2,7 +2,7 @@ import { FC } from "react";
 import { TitleMain } from "components/ui";
 import { getIconSrc } from "utils";
 import { ICategory, useGetCategoriesQuery } from "redux/categoriesApi/categoriesApi";
-import { TitleWrapper, CategoryIcon, IconItem, IconList } from "./CategoriesTable.styled";
+import { Wrapper, CategoryIcon, IconItem, IconList } from "./CategoriesTable.styled";
 import { categoriesIcons } from "data/categoriesIcons";
 import { MdAddCircleOutline } from "react-icons/md";
 import { useChangeScreen } from "hooks/useChangeScreen";
@@ -28,30 +28,25 @@ export const CategoriesTable: FC<CategoriesTableProps> = ({ setCategoryData }) =
   };
 
   return (
-    <>
-      <TitleWrapper>
-        <TitleMain fz="30px" mb='0px'>Expenses</TitleMain>
-      </TitleWrapper>
+    <Wrapper>
+
+      <TitleMain fz="30px" mb='10px'>Expenses</TitleMain>
       <IconList>
-        <IconItem onClick={() => handleAddCategory(transactionTypes.Expense)}>
-          <MdAddCircleOutline size={80} color={'green'} />
-        </IconItem>
         {userCategories && (
-          userCategories.filter(({type}) => type === transactionTypes.Expense).map(category =>
+          userCategories.filter(({ type }) => type === transactionTypes.Expense).map(category =>
             <IconItem key={category._id} onClick={() => handleEditCategory(category)}>
               <CategoryIcon src={getIconSrc(category.icon, categoriesIcons)} alt={category.icon} />
               <p>{category.title}</p>
             </IconItem>
           )
         )}
-      </IconList>
-      <TitleWrapper>
-        <TitleMain fz="30px" mb='0px'>Revenues</TitleMain>
-      </TitleWrapper>
-      <IconList>
-        <IconItem onClick={() => handleAddCategory(transactionTypes.Revenue)}>
-          <MdAddCircleOutline size={80} color={'green'} />
+        <IconItem onClick={() => handleAddCategory(transactionTypes.Expense)}>
+          <MdAddCircleOutline size={110} color={'green'} />
         </IconItem>
+      </IconList>
+
+      <TitleMain fz="30px" mb='10px'>Revenues</TitleMain>
+      <IconList>
         {userCategories && (
           userCategories.filter(({type}) => type === transactionTypes.Revenue).map(category =>
             <IconItem key={category._id} onClick={() => handleEditCategory(category)}>
@@ -60,7 +55,11 @@ export const CategoriesTable: FC<CategoriesTableProps> = ({ setCategoryData }) =
             </IconItem>
           )
         )}
+        <IconItem onClick={() => handleAddCategory(transactionTypes.Revenue)}>
+          <MdAddCircleOutline size={110} color={'green'} />
+        </IconItem>
       </IconList>
-    </>
+
+    </Wrapper>
   )
 }

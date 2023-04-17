@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { toast } from "react-toastify";
 
 import { transactionSchema, IErrorAPI, requestErrorPopUp, getCurrentDate, getIconSrc } from "utils";
@@ -27,11 +27,9 @@ export const FormTransaction: FC<FormTransactionProps> = ({ formTypeEdit, transa
   const [addTransaction, { isLoading: isAddingTransaction }] = useAddTransactionMutation();
   const [updateTransaction, { isLoading: isUpdatingTransaction }] = useUpdateTransactionMutation();
   const { data: userCategories, isLoading: isLoadingCategories } = useGetCategoriesQuery();
-  const { data: userAccounts, isLoading: isLoadingAccounts } = useGetAccountsQuery();
+  const { data: userAccounts, isLoading: isLoadingAccounts, refetch: refetchAccounts } = useGetAccountsQuery();
   const transactionType = useAppSelector(({ transactionType }) => transactionType);
   
-  const userCategoriesByType = userCategories?.filter(({ type }) => type === transactionType);
-
   const createDefaultValues = {
     account_id: '',
     date: getCurrentDate(),
@@ -45,17 +43,24 @@ export const FormTransaction: FC<FormTransactionProps> = ({ formTypeEdit, transa
   //   icon: transactionData.icon,
   // };
 
-  const { handleSubmit, control, formState: { errors } } = useForm<FormData>({
+  const { handleSubmit, control, resetField, formState: { errors } } = useForm<FormData>({
     resolver: yupResolver(transactionSchema),
     defaultValues: createDefaultValues,
   });
 
+  useEffect(() => {
+    resetField("category_id");
+  }, [resetField, transactionType]);
+
+  const userCategoriesByType = userCategories?.filter(({ type }) => type === transactionType);
+
   const onSubmit = async (data: FormData): Promise<void> => {
-    console.log(typeof data.comment)
-    console.log({...data, type: transactionType});
+    // console.log(typeof data.comment)
+    // console.log({...data, type: transactionType});
     try {
       // if (!formTypeEdit) {
-        await addTransaction({...data, type: transactionType}).unwrap();
+      await addTransaction({ ...data, type: transactionType }).unwrap();
+      await refetchAccounts();
       //   toast.info(`"${data.title}" category created`);
       // }
       // if (formTypeEdit) {
